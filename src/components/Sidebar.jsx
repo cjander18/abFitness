@@ -18,15 +18,9 @@ export default class Sidebar extends Component {
                 </button>
                 <button
                     className="sidebarItem"
-                    onClick={() => this.props.selectTab('Lifting')}
+                    onClick={() => this.props.selectTab('Exercise')}
                 >
-                    Lifting
-                </button>
-                <button
-                    className="sidebarItem"
-                    onClick={() => this.props.selectTab('Running')}
-                >
-                    Running
+                    Exercise
                 </button>
             </div>
         );

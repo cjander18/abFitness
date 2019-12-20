@@ -14,11 +14,11 @@ export default class Sidebar extends Component {
                 </a>
                 <a
                     className={`sidebarItem${
-                        this.props.selectedTab === 'Exercise' ? ' selected' : ''
+                        this.props.selectedTab === 'Lifting' ? ' selected' : ''
                     }`}
-                    onClick={() => this.props.selectTab('Exercise')}
+                    onClick={() => this.props.selectTab('Lifting')}
                 >
-                    Exercise
+                    Lifting
                 </a>
                 <a
                     className={`sidebarItem${

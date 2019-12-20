@@ -3,6 +3,7 @@ import { AppConfig, getFile, putFile, lookupProfile, Person } from 'blockstack';
 export const appConfig = new AppConfig(['store_write', 'publish_data']);
 
 const timerFileName = 'abstractTimer.json';
+const calendarFileName = 'abstractCalendar.json';
 
 export class BlockstackUtils {
     static getUserProfile = username =>
@@ -20,6 +21,11 @@ export class BlockstackUtils {
                 })
                 .catch(err => reject(err));
         });
+
+    static getCalendars = () => BlockstackUtils._get(calendarFileName);
+
+    static setCalendars = calendarsInfo =>
+        BlockstackUtils._save(calendarFileName, calendarsInfo);
 
     static getTimers = () => BlockstackUtils._get(timerFileName);
 

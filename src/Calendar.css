@@ -1,0 +1,210 @@
+.calendar {
+    display: absolute;
+    /* position: relative; */
+    width: 100%;
+    background: var(--neutral-color);
+    border: 1px solid var(--border-color);
+    /* margin-top: 5em; */
+}
+
+.calendar .header {
+    /* margin-left: 0; */
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 115%;
+    padding: 1.5em 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.calendar .header .icon {
+    cursor: pointer;
+    transition: 0.15s ease-out;
+}
+
+.calendar .header .icon:hover {
+    transform: scale(1.75);
+    transition: 0.25s ease-out;
+    color: var(--main-color);
+}
+
+.calendar .header .icon:first-of-type {
+    margin-left: 1em;
+}
+
+.calendar .header .icon:last-of-type {
+    margin-right: 1em;
+}
+
+.calendar .days {
+    margin-left: 0;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: var(--text-color-light);
+    font-size: 70%;
+    padding: 0.75em 0;
+    /* border-bottom: 1px solid var(--border-color); */
+}
+
+.calendar .body .row.month .cell {
+    /* position: relative; */
+    height: 4.5em;
+    border-right: 1px solid var(--border-color);
+    /* overflow: hidden; */
+    cursor: pointer;
+    background: var(--neutral-color);
+    transition: 0.25s ease-out;
+}
+
+.calendar .body .cell {
+    /* position: relative; */
+    height: 2.5em;
+    border-right: 1px solid var(--border-color);
+    /* overflow: hidden; */
+    cursor: pointer;
+    background: var(--neutral-color);
+    transition: 0.25s ease-out;
+}
+
+.calendar .body .cell:hover {
+    background: var(--bg-color);
+    transition: 0.5s ease-out;
+}
+
+.calendar .body .table .hour {
+    /* position: relative; */
+    /* width: 45rem; */
+    border-right: 1px solid var(--border-color);
+    /* overflow: hidden; */
+    cursor: pointer;
+    background: var(--neutral-color);
+    transition: 0.25s ease-out;
+}
+
+.calendar .body .week .table .hour {
+    /* position: relative; */
+    /* width: calc(100% / 7); */
+    border-right: 1px solid var(--border-color);
+    /* overflow: hidden; */
+    cursor: pointer;
+    background: var(--neutral-color);
+    transition: 0.25s ease-out;
+}
+
+.calendar .body .hour {
+    /* position: relative; */
+    height: 2.5em;
+    border-top: 2px solid var(--border-color);
+    /* overflow: hidden; */
+    cursor: pointer;
+    background: var(--neutral-color);
+    transition: 0.25s ease-out;
+}
+
+.calendar .body .halfhour {
+    /* position: relative; */
+    height: 2.5em;
+    border-top: 2px dashed var(--border-color);
+    /* overflow: hidden; */
+    cursor: pointer;
+    background: var(--neutral-color);
+    transition: 0.25s ease-out;
+}
+
+.calendar .body .selected {
+    border-left: 10px solid transparent;
+    border-image: linear-gradient(45deg, #1a8fff 0%, #53cbf1 40%);
+    border-image-slice: 1;
+}
+
+.calendar .body .row {
+    margin-left: 0;
+    /* border-bottom: 1px solid var(--border-color); */
+}
+
+.calendar .body .row.month {
+    line-height: 4.5em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.calendar .body .row:last-child {
+    border-bottom: none;
+}
+
+.calendar .body .cell:last-child {
+    border-right: none;
+}
+
+.calendar .body .cell .number {
+    position: absolute;
+    font-size: 82.5%;
+    line-height: 1;
+    top: 0.75em;
+    right: 0.75em;
+    font-weight: 700;
+}
+
+.calendar .body .disabled {
+    color: var(--text-color-light);
+    pointer-events: none;
+}
+
+.calendar .body .cell .bg {
+    font-weight: 700;
+    line-height: 1;
+    color: black;
+    opacity: 0;
+    font-size: 5em;
+    position: absolute;
+    top: -0.05em;
+    right: 0.4em;
+    transition: 0.25s ease-out;
+    letter-spacing: -0.07em;
+}
+
+.calendar .body .cell:hover .bg,
+.calendar .body .selected .bg {
+    opacity: 0.05;
+    transition: 0.5s ease-in;
+}
+
+.calendar .body .day .number {
+    position: absolute;
+    font-size: 82.5%;
+    line-height: 1;
+    bottom: 0.75em;
+    right: 0.75em;
+    font-weight: 700;
+}
+
+.calendar .body .table .hour {
+    border-right: 1px solid var(--border-color);
+    /* width: 100%; */
+    /* overflow: hidden; */
+    cursor: pointer;
+    background: var(--neutral-color);
+    transition: 0.25s ease-out;
+}
+
+.calendar .body .table .halfhour {
+    border-right: 1px solid var(--border-color);
+    /* width: 100%; */
+    /* overflow: hidden; */
+    cursor: pointer;
+    background: var(--neutral-color);
+    transition: 0.25s ease-out;
+}
+
+.calendar .body .col {
+    overflow: scroll;
+    padding: 0;
+    /* flex-grow: 0;
+    flex-basis: calc(100% / 7); */
+    width: calc(100% / 7);
+}
+
+.calendar .body.day .col {
+    height: 70vh;
+    overflow: scroll;
+    padding: 0;
+    width: 100%;
+}

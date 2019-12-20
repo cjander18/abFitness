@@ -4,6 +4,7 @@ import Signin from './Signin.js';
 import { UserSession, AppConfig } from 'blockstack';
 
 import './App.css';
+import './Calendar.css';
 
 const appConfig = new AppConfig();
 const userSession = new UserSession({ appConfig: appConfig });

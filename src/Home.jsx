@@ -41,7 +41,10 @@ export default class Home extends Component {
                         ></Sidebar>
                     </div>
                     <div className="main">
-                        <Main selectedTab={this.state.selectedTab}></Main>
+                        <Main
+                            userSession={this.props.userSession}
+                            selectedTab={this.state.selectedTab}
+                        ></Main>
                     </div>
                 </div>
             </ErrorBoundary>

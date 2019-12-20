@@ -18,7 +18,14 @@
         "react-dom": "^16.8.6",
         "react-dropdown": "^1.6.4",
         "react-router-dom": "^4.3.1",
-        "react-scripts": "3.0.1"
+        "react-scripts": "3.0.1",
+        "shards-react": "^1.0.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.7.5",
+        "@babel/preset-env": "^7.7.6",
+        "prettier": "^1.19.1",
+        "react-test-renderer": "^16.8.6"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -40,10 +47,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "devDependencies": {
-        "bootstrap": "^4.3.1",
-        "prettier": "^1.19.1",
-        "react-test-renderer": "^16.8.6"
     }
 }

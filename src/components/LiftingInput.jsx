@@ -2,18 +2,44 @@ import React, { Component } from 'react';
 import { BlockstackUtils } from '../utils/Blockstack';
 import { Button } from 'shards-react';
 
-const blockstack = new BlockstackUtils();
-
 export default class LiftingInput extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            repetitions: undefined,
-            sets: undefined,
-            weightLifted: undefined,
+            exercises: [],
             exerciseType: '',
+            repetitions: 0,
+            sets: 0,
+            weightLifted: 0,
         };
-        // this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    async saveExercise() {
+        console.log('SAVINGGGGG');
+        const exercises = this.state.exercises;
+        exercises.push({
+            exerciseType: this.state.exerciseType,
+            repetitions: this.state.repetitions,
+            sets: this.state.sets,
+            weightLifted: this.state.weightLifted,
+            // TODO: Add date picker to form
+            date: new Date(),
+        });
+        await BlockstackUtils.setExercises(exercises);
+        await this.getSavedExercises();
+    }
+
+    componentDidMount() {
+        this.getSavedExercises();
+    }
+
+    async getSavedExercises() {
+        await BlockstackUtils.getExercises().then(exercises => {
+            console.log(exercises);
+            this.setState({ exercises }, () =>
+                console.log(`Exercises: ${this.state.exercises}`)
+            );
+        });
     }
 
     incrementRepetitions = add => {
@@ -125,7 +151,10 @@ export default class LiftingInput extends Component {
                             value={this.state.repetitions}
                             onChange={event =>
                                 this.setState({
-                                    repetitions: parseInt(event.target.value),
+                                    repetitions: event.target.value.replace(
+                                        /\D/,
+                                        ''
+                                    ),
                                 })
                             }
                         ></input>
@@ -158,7 +187,7 @@ export default class LiftingInput extends Component {
                             value={this.state.sets}
                             onChange={event =>
                                 this.setState({
-                                    sets: parseInt(event.target.value),
+                                    sets: event.target.value.replace(/\D/, ''),
                                 })
                             }
                         ></input>
@@ -191,7 +220,10 @@ export default class LiftingInput extends Component {
                         value={this.state.weightLifted}
                         onChange={event =>
                             this.setState({
-                                weightLifted: parseInt(event.target.value),
+                                weightLifted: event.target.value.replace(
+                                    /\D/,
+                                    ''
+                                ),
                             })
                         }
                     ></input>
@@ -205,7 +237,11 @@ export default class LiftingInput extends Component {
                     </Button>
                 </div>
                 <div className="inlineButton">
-                    <button id="addExercise" type="submit">
+                    <button
+                        id="addExercise"
+                        type="button"
+                        onClick={() => this.saveExercise()}
+                    >
                         Add
                     </button>
                 </div>

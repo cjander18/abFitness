@@ -15,6 +15,7 @@ export default class CalendarMonth extends Component {
         const {
             currentMonth = new Date(),
             selectedDate = new Date(),
+            exercises = [],
         } = this.props;
 
         let monthStart = startOfMonth(currentMonth);
@@ -31,6 +32,8 @@ export default class CalendarMonth extends Component {
             for (let i = 0; i < 7; i++) {
                 formattedDate = format(day, dateFormat);
                 const cloneDay = day;
+                // TODO: search exercises array for any items on this day
+                // TODO: Add div below the spans to insert any found exercises
                 days.push(
                     <div
                         className={`col cell ${

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { BlockstackUtils } from '../utils/Blockstack';
 
-const blockstack = new BlockstackUtils();
-
 export default class Timer extends Component {
     constructor(props) {
         super(props);

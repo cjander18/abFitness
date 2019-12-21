@@ -6,6 +6,3 @@ export const calendarTypes = {
     Schedule: 'Schedule',
     SevenDays: '7 Days',
 };
-
-const calendarFileName = 'abstractCalendar.json';
-const eventFileName = 'abstractEvents.json';

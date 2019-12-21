@@ -23,6 +23,7 @@ export default class CalendarDates extends Component {
                             selectedHour={this.props.selectedHour}
                             showPopup={this.props.showPopup}
                             togglePopup={this.props.togglePopup}
+                            exercises={this.props.exercises}
                         ></CalendarDay>
                     </div>
                 </div>
@@ -38,6 +39,7 @@ export default class CalendarDates extends Component {
                     selectedHour={this.props.selectedHour}
                     showPopup={this.props.showPopup}
                     togglePopup={this.props.togglePopup}
+                    exercises={this.props.exercises}
                 ></CalendarWeek>
             );
         } else if (calendarType === calendarTypes.Month) {
@@ -50,6 +52,7 @@ export default class CalendarDates extends Component {
                     selectedHour={this.props.selectedHour}
                     showPopup={this.props.showPopup}
                     togglePopup={this.props.togglePopup}
+                    exercises={this.props.exercises}
                 ></CalendarMonth>
             );
         } else if (calendarType === calendarTypes.Year) {
@@ -66,6 +69,7 @@ export default class CalendarDates extends Component {
                 selectedHour={this.props.selectedHour}
                 showPopup={this.props.showPopup}
                 togglePopup={this.props.togglePopup}
+                exercises={this.props.exercises}
             ></CalendarMonth>
         );
     }

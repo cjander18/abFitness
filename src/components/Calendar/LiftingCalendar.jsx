@@ -63,6 +63,7 @@ export default class LiftingCalendar extends Component {
                     selectedHour={this.state.selectedHour}
                     showPopup={this.state.showPopup}
                     togglePopup={this.togglePopup}
+                    exercises={this.props.exercises}
                 ></CalendarDates>
                 {/* {this.state.showPopup ? (
                     <CalendarPopup

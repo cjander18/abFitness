@@ -4,6 +4,7 @@ export const appConfig = new AppConfig(['store_write', 'publish_data']);
 
 const timerFileName = 'abstractTimer.json';
 const calendarFileName = 'abstractCalendar.json';
+const exerciseFileName = 'abstractExercise.json';
 
 export class BlockstackUtils {
     static getUserProfile = username =>
@@ -26,6 +27,11 @@ export class BlockstackUtils {
 
     static setCalendars = calendarsInfo =>
         BlockstackUtils._save(calendarFileName, calendarsInfo);
+
+    static getExercises = () => BlockstackUtils._get(exerciseFileName);
+
+    static setExercises = exercises =>
+        BlockstackUtils._save(exerciseFileName, exercises);
 
     static getTimers = () => BlockstackUtils._get(timerFileName);
 

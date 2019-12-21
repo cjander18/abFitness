@@ -6,12 +6,15 @@ export default class Lifting extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            repetitions: undefined,
-            sets: undefined,
-            weightLifted: undefined,
-            exerciseType: '',
+            exercises: [],
         };
     }
+
+    updateExercises = exercises => {
+        this.setState({ exercises: exercises }, () =>
+            console.log(`exercises: ${this.state.calendarType}`)
+        );
+    };
 
     render() {
         return (
@@ -19,9 +22,13 @@ export default class Lifting extends Component {
                 <div className="oneLineInputDiv">
                     <LiftingInput
                         userSession={this.props.userSession}
+                        exercises={this.state.exercises}
+                        updateExercises={this.updateExercises}
                     ></LiftingInput>
                     <LiftingCalendar
                         userSession={this.props.userSession}
+                        exercises={this.state.exercises}
+                        updateExercises={this.updateExercises}
                     ></LiftingCalendar>
                 </div>
             </div>

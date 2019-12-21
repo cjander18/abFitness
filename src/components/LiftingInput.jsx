@@ -16,31 +16,27 @@ export default class LiftingInput extends Component {
 
     async saveExercise() {
         console.log('SAVINGGGGG');
-        const exercises = this.state.exercises;
+        const exercises = this.props.exercises;
         exercises.push({
             exerciseType: this.state.exerciseType,
             repetitions: this.state.repetitions,
             sets: this.state.sets,
             weightLifted: this.state.weightLifted,
             // TODO: Add date picker to form
-            date: new Date(),
+            date: new Date('12/20/2019'),
         });
         await BlockstackUtils.setExercises(exercises);
-        await this.getSavedExercises();
+        await this.props.updateExercises(exercises);
     }
 
-    componentDidMount() {
-        this.getSavedExercises();
-    }
-
-    async getSavedExercises() {
-        await BlockstackUtils.getExercises().then(exercises => {
-            console.log(exercises);
-            this.setState({ exercises }, () =>
-                console.log(`Exercises: ${this.state.exercises}`)
-            );
-        });
-    }
+    // async getSavedExercises() {
+    //     await BlockstackUtils.getExercises().then(exercises => {
+    //         console.log(exercises);
+    //         this.setState({ exercises }, () =>
+    //             console.log(`Exercises: ${this.state.exercises}`)
+    //         );
+    //     });
+    // }
 
     incrementRepetitions = add => {
         this.setState(

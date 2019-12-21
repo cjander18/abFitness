@@ -28,12 +28,25 @@ export default class CalendarMonth extends Component {
         let days = [];
         let day = startDate;
         let formattedDate = '';
+        let exerciseDivs = [];
         while (day <= endDate) {
             for (let i = 0; i < 7; i++) {
                 formattedDate = format(day, dateFormat);
                 const cloneDay = day;
-                // TODO: search exercises array for any items on this day
-                // TODO: Add div below the spans to insert any found exercises
+
+                let count = 0;
+                exercises.map(exercise => {
+                    if (new Date(exercise.date).getDate() === day.getDate()) {
+                        const key = exercise.exerciseType + count;
+                        exerciseDivs.push(
+                            <div className="calendarExercises" key={key}>
+                                {exercise.exerciseType}
+                            </div>
+                        );
+                        count = count + 1;
+                    }
+                });
+
                 days.push(
                     <div
                         className={`col cell ${
@@ -48,9 +61,11 @@ export default class CalendarMonth extends Component {
                     >
                         <span className="number">{formattedDate}</span>
                         <span className="bg">{formattedDate}</span>
+                        {exerciseDivs}
                     </div>
                 );
                 day = addDays(day, 1);
+                exerciseDivs = [];
             }
             rows.push(
                 <div className="row month" key={day}>

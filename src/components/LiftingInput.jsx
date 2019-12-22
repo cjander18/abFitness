@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { BlockstackUtils } from '../utils/Blockstack';
 import { Button } from 'shards-react';
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 export default class LiftingInput extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            exerciseDate: new Date(),
             exercises: [],
             exerciseType: '',
             repetitions: 0,
@@ -22,21 +25,11 @@ export default class LiftingInput extends Component {
             repetitions: this.state.repetitions,
             sets: this.state.sets,
             weightLifted: this.state.weightLifted,
-            // TODO: Add date picker to form
-            date: new Date('12/20/2019'),
+            date: this.state.exerciseDate,
         });
         await BlockstackUtils.setExercises(exercises);
         await this.props.updateExercises(exercises);
     }
-
-    // async getSavedExercises() {
-    //     await BlockstackUtils.getExercises().then(exercises => {
-    //         console.log(exercises);
-    //         this.setState({ exercises }, () =>
-    //             console.log(`Exercises: ${this.state.exercises}`)
-    //         );
-    //     });
-    // }
 
     incrementRepetitions = add => {
         this.setState(
@@ -71,63 +64,88 @@ export default class LiftingInput extends Component {
         );
     };
 
-    // componentDidMount() {
-    //     this.getSavedTimers();
-    // }
-
-    // handleSubmit(event) {
-    //     console.log('STARTINGGGGG');
-    //     event.preventDefault();
-    //     clearInterval(this.intervalHandle);
-
-    //     if (
-    //         this.state.breakHours ||
-    //         this.state.breakMinutes ||
-    //         this.state.breakSeconds
-    //     ) {
-    //         this.setState({ breaksExist: true });
-    //         this.setState({ breakNext: true });
-    //     }
-
-    //     this.setState({ displayRounds: this.state.rounds });
-    //     this.setState({
-    //         displayHours: this.addLeadingZero(this.state.roundHours),
-    //     });
-    //     this.setState({
-    //         displayMinutes: this.addLeadingZero(this.state.roundMinutes),
-    //     });
-    //     this.setState({
-    //         displaySeconds: this.addLeadingZero(this.state.roundSeconds),
-    //     });
-
-    //     this.setState({ remainingRounds: this.state.rounds });
-    //     this.setState({ remainingHours: this.state.roundHours });
-    //     this.setState({ remainingMinutes: this.state.roundMinutes });
-    //     this.setState({ remainingSeconds: this.state.roundSeconds });
-
-    //     this.intervalHandle = setInterval(this.tick, 1000);
-    // }
-
     render() {
         return (
             <div className="liftingInput">
                 <div className="oneLineInputDiv">
-                    <input
-                        id="exerciseType"
-                        name="exerciseType"
-                        type="dropdown"
-                        placeholder="Type"
-                        title="Exercise Type"
-                        className="exerciseType"
-                        onChange={event =>
-                            this.setState({
-                                exerciseType: event.target.value,
-                            })
-                        }
-                    ></input>
+                    <span>
+                        <label>Exercise:</label>
+                        <input
+                            id="exerciseType"
+                            name="exerciseType"
+                            type="dropdown"
+                            placeholder="Exercise Type"
+                            title="Exercise Type"
+                            className="exerciseType"
+                            onChange={event =>
+                                this.setState({
+                                    exerciseType: event.target.value,
+                                })
+                            }
+                        ></input>
+                    </span>
+                    <span>
+                        <label>Date:</label>
+                        <input
+                            id="exerciseDate"
+                            name="exerciseDate"
+                            type="date"
+                            placeholder="Date"
+                            title="Exercise Date"
+                            className="exerciseDate"
+                            value={format(
+                                this.state.exerciseDate,
+                                'yyyy-MM-dd'
+                            )}
+                            onChange={event =>
+                                this.setState({
+                                    exerciseDate: utcToZonedTime(
+                                        event.target.value,
+                                        Intl.DateTimeFormat().resolvedOptions()
+                                            .timeZone
+                                    ),
+                                })
+                            }
+                        ></input>
+                    </span>
                 </div>
                 <div className="oneLineInputDiv">
                     <span className="exerciseCounter">
+                        <label>Sets:</label>
+                        <Button
+                            type="button"
+                            theme="secondary"
+                            className="btn-increment"
+                            onClick={() => this.incrementSets(false)}
+                        >
+                            -
+                        </Button>
+                        <input
+                            id="sets"
+                            name="sets"
+                            type="number"
+                            placeholder="Sets"
+                            title="Sets"
+                            className="exerciseNumber"
+                            size="4"
+                            value={this.state.sets}
+                            onChange={event =>
+                                this.setState({
+                                    sets: event.target.value.replace(/\D/, ''),
+                                })
+                            }
+                        ></input>
+                        <Button
+                            type="button"
+                            theme="secondary"
+                            className="btn-increment"
+                            onClick={() => this.incrementSets(true)}
+                        >
+                            +
+                        </Button>
+                    </span>
+                    <span className="exerciseCounter">
+                        <label>Reps:</label>
                         <Button
                             type="button"
                             theme="secondary"
@@ -163,41 +181,9 @@ export default class LiftingInput extends Component {
                             +
                         </Button>
                     </span>
-                    <span className="exerciseCounter">
-                        <Button
-                            type="button"
-                            theme="secondary"
-                            className="btn-increment"
-                            onClick={() => this.incrementSets(false)}
-                        >
-                            -
-                        </Button>
-                        <input
-                            id="sets"
-                            name="sets"
-                            type="number"
-                            placeholder="Sets"
-                            title="Sets"
-                            className="exerciseNumber"
-                            size="4"
-                            value={this.state.sets}
-                            onChange={event =>
-                                this.setState({
-                                    sets: event.target.value.replace(/\D/, ''),
-                                })
-                            }
-                        ></input>
-                        <Button
-                            type="button"
-                            theme="secondary"
-                            className="btn-increment"
-                            onClick={() => this.incrementSets(true)}
-                        >
-                            +
-                        </Button>
-                    </span>
                 </div>
                 <div className="oneLineInputDiv">
+                    <label>Weight:</label>
                     <Button
                         type="button"
                         theme="secondary"

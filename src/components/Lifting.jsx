@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ExerciseList from './ExerciseList';
 import LiftingInput from './LiftingInput';
 import LiftingCalendar from './Calendar/LiftingCalendar';
 import { BlockstackUtils } from '../utils/Blockstack';
@@ -34,6 +35,10 @@ export default class Lifting extends Component {
         return (
             <div className="lifting">
                 <div className="oneLineInputDiv">
+                    <ExerciseList
+                        userSession={this.props.userSession}
+                        exercises={this.state.exercises}
+                    ></ExerciseList>
                     <LiftingInput
                         userSession={this.props.userSession}
                         exercises={this.state.exercises}

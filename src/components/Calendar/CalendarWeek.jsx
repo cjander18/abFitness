@@ -8,6 +8,7 @@ export default class CalendarWeek extends Component {
 
         let startDate = startOfWeek(selectedDate);
         let endDate = endOfWeek(selectedDate);
+        this.props.updateDateRange({ startDate, endDate });
 
         const rows = [];
         let days = [];

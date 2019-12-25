@@ -6,6 +6,7 @@ import CalendarHeader from './CalendarHeader';
 import { calendarTypes } from '../../utils/Constants';
 import { appConfig, BlockstackUtils } from '../../utils/Blockstack';
 import { UserSession } from 'blockstack';
+import { addMonths, subMonths } from 'date-fns';
 
 const avatarFallbackImage =
     'https://s3.amazonaws.com/onename/avatar-placeholder.png';
@@ -36,7 +37,6 @@ export default class LiftingCalendar extends Component {
                     return avatarFallbackImage;
                 },
             },
-            currentMonth: new Date(),
             selectedDate: new Date(),
             selectedHour: '',
             calendarType: calendarTypes.Month,
@@ -50,17 +50,20 @@ export default class LiftingCalendar extends Component {
         return (
             <div className="calendar">
                 <CalendarHeader
-                    setCalendarType={this.setCalendarType}
                     calendarType={this.state.calendarType}
+                    nextMonth={this.nextMonth}
+                    prevMonth={this.prevMonth}
                     selectedDate={this.state.selectedDate}
+                    setCalendarType={this.setCalendarType}
+                    updateDateRange={this.props.updateDateRange}
                 ></CalendarHeader>
                 <CalendarDates
                     calendarType={this.state.calendarType}
-                    currentMonth={this.state.currentMonth}
                     selectDate={this.selectDate}
                     selectHour={this.selectHour}
                     selectedDate={this.state.selectedDate}
                     selectedHour={this.state.selectedHour}
+                    updateDateRange={this.props.updateDateRange}
                     showPopup={this.state.showPopup}
                     togglePopup={this.togglePopup}
                     exercises={this.props.exercises}
@@ -102,6 +105,18 @@ export default class LiftingCalendar extends Component {
     togglePopup = showPopup => {
         this.setState({
             showPopup: !showPopup,
+        });
+    };
+
+    nextMonth = () => {
+        this.setState({
+            selectedDate: addMonths(this.state.selectedDate, 1),
+        });
+    };
+
+    prevMonth = () => {
+        this.setState({
+            selectedDate: subMonths(this.state.selectedDate, 1),
         });
     };
 

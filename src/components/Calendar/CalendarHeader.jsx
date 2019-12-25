@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
-import { addDays, addMonths, format, startOfWeek, subMonths } from 'date-fns';
+import { addDays, format, startOfMonth, startOfWeek } from 'date-fns';
 import CalendarDropdown from './CalendarDropdown';
 import { calendarTypes } from '../../utils/Constants';
 
 export default class CalendarHeader extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentMonth: new Date(),
-        };
-    }
-
     render() {
         return <div className="calendarHeader">{this.renderHeader()}</div>;
     }
@@ -21,16 +14,19 @@ export default class CalendarHeader extends Component {
             <div>
                 <div className="header row flex-middle">
                     <div className="col col-start">
-                        <span className="icon" onClick={this.prevMonth}>
+                        <span className="icon" onClick={this.props.prevMonth}>
                             chevron_left
                         </span>
-                        <span className="icon" onClick={this.nextMonth}>
+                        <span className="icon" onClick={this.props.nextMonth}>
                             chevron_right
                         </span>
                     </div>
                     <div className="col">
                         <span>
-                            {format(this.state.currentMonth, dateFormat)}
+                            {format(
+                                startOfMonth(this.props.selectedDate),
+                                dateFormat
+                            )}
                         </span>
                     </div>
                     <div className="col col-end">
@@ -50,7 +46,7 @@ export default class CalendarHeader extends Component {
         const days = [];
 
         if (this.props.calendarType !== calendarTypes.Day) {
-            let startDate = startOfWeek(this.state.currentMonth);
+            let startDate = startOfWeek(startOfMonth(this.props.selectedDate));
             for (let i = 0; i < 7; i++) {
                 days.push(
                     <div className="col col-center" key={i}>
@@ -68,16 +64,4 @@ export default class CalendarHeader extends Component {
         }
         return <div className="days row">{days}</div>;
     }
-
-    nextMonth = () => {
-        this.setState({
-            currentMonth: addMonths(this.state.currentMonth, 1),
-        });
-    };
-
-    prevMonth = () => {
-        this.setState({
-            currentMonth: subMonths(this.state.currentMonth, 1),
-        });
-    };
 }

@@ -25,6 +25,8 @@ export default class CalendarDay extends Component {
     setHourArray() {
         const result = [];
         const { day, firstDay } = this.props;
+        this.props.updateDateRange({ startDate: day, endDate: day });
+
         for (let hour = 1; hour <= 24; hour++) {
             const time = `${hour}:00`;
             const timeHalfHour = `${hour}:30`;

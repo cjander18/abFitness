@@ -59,7 +59,9 @@ export default class CalendarMonth extends Component {
                         onClick={() => this.props.selectDate(cloneDay)}
                     >
                         <span className="number">{formattedDate}</span>
-                        {exerciseDivs}
+                        <div className="spanCalendarExercises">
+                            {exerciseDivs}
+                        </div>
                     </div>
                 );
                 day = addDays(day, 1);

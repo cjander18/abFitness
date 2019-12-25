@@ -14,22 +14,26 @@ export default class CalendarHeader extends Component {
             <div>
                 <div className="header row flex-middle">
                     <div className="col col-start">
-                        <span className="icon" onClick={this.props.prevMonth}>
+                        <span
+                            className="icon calendarShift"
+                            onClick={this.props.prevMonth}
+                        >
                             chevron_left
                         </span>
-                        <span className="icon" onClick={this.props.nextMonth}>
-                            chevron_right
-                        </span>
-                    </div>
-                    <div className="col">
                         <span>
                             {format(
                                 startOfMonth(this.props.selectedDate),
                                 dateFormat
                             )}
                         </span>
+                        <span
+                            className="icon calendarShift"
+                            onClick={this.props.nextMonth}
+                        >
+                            chevron_right
+                        </span>
                     </div>
-                    <div className="col col-end">
+                    <div className="calendarTypeDropDown">
                         <CalendarDropdown
                             setCalendarType={this.props.setCalendarType}
                             calendarType={this.props.calendarType}

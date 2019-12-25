@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
+// return 1 if the first date is after the seoncd
+import { compareAsc } from 'date-fns';
 
 export default class ExerciseList extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     buildExerciseList() {
-        const { exercises } = this.props;
+        const {
+            dateRange: { startDate, endDate },
+            exercises,
+        } = this.props;
         const exerciseTypes = [];
-        const exerciseDivs = [];
         let count = 0;
 
-        exercises.map(exercise => {
-            if (!exerciseTypes.includes(exercise.exerciseType)) {
+        const exerciseDivs = exercises.map(exercise => {
+            const exerciseDate = new Date(exercise.date);
+            // If the exercise date is between (or on) the start and end dates
+            // and it is not already in the list
+            if (
+                compareAsc(exerciseDate, startDate) > -1 &&
+                compareAsc(endDate, exerciseDate) > -1 &&
+                !exerciseTypes.includes(exercise.exerciseType)
+            ) {
                 exerciseTypes.push(exercise.exerciseType);
                 const key = exercise.exerciseType + count;
-                exerciseDivs.push(
+                count = count + 1;
+                return (
                     <div className="calendarExercises" key={key}>
                         {exercise.exerciseType}
                     </div>
                 );
-                count = count + 1;
             }
+            return undefined;
         });
 
         return exerciseDivs;

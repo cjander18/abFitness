@@ -120,22 +120,25 @@ main {
     overflow: auto;
 }
 
-/* Sidebar links */
-.sidebar a {
-    display: block;
+/* Sidebar buttons */
+.sidebar button {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    display: inline-block;
     color: black;
     padding: 16px;
     text-decoration: none;
 }
 
 /* Active/current link */
-.sidebar a.active {
+.sidebar button.active {
     background-color: #4caf50;
     color: white;
 }
 
 /* Links on mouse-over */
-.sidebar a:hover:not(.active) {
+.sidebar button:hover:not(.active) {
     background: rgb(107, 106, 106);
     color: white;
     cursor: pointer;
@@ -150,7 +153,7 @@ main {
 /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
 div.main {
     margin-left: 200px;
-    padding: 1px 16px;
+    /* padding: 1px 16px; */
     height: 1000px;
 }
 
@@ -220,6 +223,11 @@ div.main {
     display: inline-block;
     border: 1px solid;
     width: 50%;
+}
+
+.blockDiv {
+    display: block;
+    width: 100%;
 }
 
 .oneLineInputDiv {

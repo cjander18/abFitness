@@ -48,7 +48,7 @@
 .calendar .body .row.month .cell {
     /* position: relative; */
     height: 4.5em;
-    border-right: 1px solid var(--border-color);
+    /* border-right: 1px solid var(--border-color); */
     /* overflow: hidden; */
     cursor: pointer;
     background: var(--neutral-color);
@@ -111,9 +111,10 @@
 }
 
 .calendar .body .selected {
-    border-left: 10px solid transparent;
+    border: 1px solid #53cbf1;
+    /* border-left: 1px solid transparent;
     border-image: linear-gradient(45deg, #1a8fff 0%, #53cbf1 40%);
-    border-image-slice: 1;
+    border-image-slice: 1; */
 }
 
 .calendar .body .row {
@@ -146,25 +147,6 @@
 .calendar .body .disabled {
     color: var(--text-color-light);
     pointer-events: none;
-}
-
-.calendar .body .cell .bg {
-    font-weight: 700;
-    line-height: 1;
-    color: black;
-    opacity: 0;
-    font-size: 5em;
-    position: absolute;
-    top: -0.05em;
-    right: 0.4em;
-    transition: 0.25s ease-out;
-    letter-spacing: -0.07em;
-}
-
-.calendar .body .cell:hover .bg,
-.calendar .body .selected .bg {
-    opacity: 0.05;
-    transition: 0.5s ease-in;
 }
 
 .calendar .body .day .number {
@@ -211,4 +193,8 @@
 
 .calendarExercises {
     line-height: 1em;
+}
+
+.calendarExercises:hover {
+    background-color: #53cbf1;
 }

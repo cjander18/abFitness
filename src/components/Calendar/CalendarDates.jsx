@@ -16,14 +16,15 @@ export default class CalendarDates extends Component {
                             day={this.props.selectedDate}
                             firstDay={true}
                             calendarType={this.props.calendarType}
-                            currentMonth={this.props.currentMonth}
                             selectDate={this.props.selectDate}
                             selectHour={this.props.selectHour}
                             selectedDate={this.props.selectedDate}
                             selectedHour={this.props.selectedHour}
+                            updateDateRange={this.props.updateDateRange}
                             showPopup={this.props.showPopup}
                             togglePopup={this.props.togglePopup}
                             exercises={this.props.exercises}
+                            updateExercises={this.props.updateExercises}
                         ></CalendarDay>
                     </div>
                 </div>
@@ -32,27 +33,29 @@ export default class CalendarDates extends Component {
             return (
                 <CalendarWeek
                     calendarType={this.props.calendarType}
-                    currentMonth={this.props.currentMonth}
                     selectDate={this.props.selectDate}
                     selectHour={this.props.selectHour}
                     selectedDate={this.props.selectedDate}
                     selectedHour={this.props.selectedHour}
+                    updateDateRange={this.props.updateDateRange}
                     showPopup={this.props.showPopup}
                     togglePopup={this.props.togglePopup}
                     exercises={this.props.exercises}
+                    updateExercises={this.props.updateExercises}
                 ></CalendarWeek>
             );
         } else if (calendarType === calendarTypes.Month) {
             return (
                 <CalendarMonth
                     calendarType={this.props.calendarType}
-                    currentMonth={this.props.currentMonth}
                     selectDate={this.props.selectDate}
                     selectedDate={this.props.selectedDate}
                     selectedHour={this.props.selectedHour}
+                    updateDateRange={this.props.updateDateRange}
                     showPopup={this.props.showPopup}
                     togglePopup={this.props.togglePopup}
                     exercises={this.props.exercises}
+                    updateExercises={this.props.updateExercises}
                 ></CalendarMonth>
             );
         } else if (calendarType === calendarTypes.Year) {
@@ -63,13 +66,14 @@ export default class CalendarDates extends Component {
         return (
             <CalendarMonth
                 calendarType={this.props.calendarType}
-                currentMonth={this.props.currentMonth}
                 selectDate={this.props.selectDate}
                 selectedDate={this.props.selectedDate}
                 selectedHour={this.props.selectedHour}
+                updateDateRange={this.props.updateDateRange}
                 showPopup={this.props.showPopup}
                 togglePopup={this.props.togglePopup}
                 exercises={this.props.exercises}
+                updateExercises={this.props.updateExercises}
             ></CalendarMonth>
         );
     }

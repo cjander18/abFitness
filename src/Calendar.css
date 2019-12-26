@@ -208,3 +208,10 @@
     background-color: #abb2b4;
     border-radius: 25px;
 }
+
+.popup {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    background-color: #abb2b4;
+}

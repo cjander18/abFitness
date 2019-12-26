@@ -21,7 +21,6 @@ export default class CalendarDates extends Component {
                             selectedDate={this.props.selectedDate}
                             selectedHour={this.props.selectedHour}
                             updateDateRange={this.props.updateDateRange}
-                            showPopup={this.props.showPopup}
                             togglePopup={this.props.togglePopup}
                             exercises={this.props.exercises}
                             updateExercises={this.props.updateExercises}
@@ -70,7 +69,6 @@ export default class CalendarDates extends Component {
                 selectedDate={this.props.selectedDate}
                 selectedHour={this.props.selectedHour}
                 updateDateRange={this.props.updateDateRange}
-                showPopup={this.props.showPopup}
                 togglePopup={this.props.togglePopup}
                 exercises={this.props.exercises}
                 updateExercises={this.props.updateExercises}

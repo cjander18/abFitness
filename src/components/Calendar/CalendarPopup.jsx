@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { appConfig, calendarTypes } from './utils/Constants';
+import { calendarTypes } from '../../utils/Constants';
+import { appConfig, BlockstackUtils } from '../../utils/Blockstack';
 import { UserSession } from 'blockstack';
 
 export default class CalendarPopup extends Component {
@@ -36,14 +37,19 @@ export default class CalendarPopup extends Component {
         );
     }
 
-    saveItem() {
-        const options = { encrypt: false }
-        this.userSession.putFile(SUBJECTS_FILENAME, JSON.stringify(subjects), options)
-        .finally(() => {
-        if(window.location.search) {
-            window.history.pushState(null, "", window.location.href.split("?")[0])
-        }
-        resolveSubjects(this, this.userSession, subjects)
-        });
-    }
+    // saveItem() {
+    //     const options = { encrypt: false };
+    //     this.userSession
+    //         .putFile(SUBJECTS_FILENAME, JSON.stringify(subjects), options)
+    //         .finally(() => {
+    //             if (window.location.search) {
+    //                 window.history.pushState(
+    //                     null,
+    //                     '',
+    //                     window.location.href.split('?')[0]
+    //                 );
+    //             }
+    //             resolveSubjects(this, this.userSession, subjects);
+    //         });
+    // }
 }

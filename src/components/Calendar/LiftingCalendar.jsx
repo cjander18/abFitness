@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Person } from 'blockstack';
 import CalendarDates from './CalendarDates';
 import CalendarHeader from './CalendarHeader';
-// import CalendarPopup from './components/CalendarPopup';
+import CalendarPopup from './CalendarPopup';
 import { calendarTypes } from '../../utils/Constants';
 import { appConfig, BlockstackUtils } from '../../utils/Blockstack';
 import { UserSession } from 'blockstack';
@@ -68,6 +68,15 @@ export default class LiftingCalendar extends Component {
                     togglePopup={this.togglePopup}
                     exercises={this.props.exercises}
                 ></CalendarDates>
+                <div
+                    style={{ display: this.state.showPopup ? 'block' : 'none' }}
+                >
+                    <CalendarPopup
+                        closePopup={this.togglePopup}
+                        selectedDate={this.state.selectedDate}
+                        selectedHour={this.state.selectedHour}
+                    ></CalendarPopup>
+                </div>
                 {/* {this.state.showPopup ? (
                     <CalendarPopup
                         text='Click "Close Button" to hide popup'
@@ -102,9 +111,9 @@ export default class LiftingCalendar extends Component {
             .catch(err => console.log(err));
     }
 
-    togglePopup = showPopup => {
+    togglePopup = () => {
         this.setState({
-            showPopup: !showPopup,
+            showPopup: !this.state.showPopup,
         });
     };
 

@@ -36,10 +36,22 @@ export default class CalendarMonth extends Component {
                 const exerciseDivs = exercises.map(exercise => {
                     if (compareAsc(new Date(exercise.date), day) === 0) {
                         const key = exercise.exerciseType + count;
+                        const pluralSets = exercise.sets > 1;
+                        const pluralReps = exercise.repetitions > 1;
+                        const tooltipText = `${exercise.sets} ${
+                            pluralSets ? 'sets' : 'set'
+                        } of ${exercise.repetitions} ${
+                            pluralReps ? 'reps' : 'rep'
+                        } at ${exercise.weightLifted}lbs`;
                         count = count + 1;
                         return (
-                            <div className="calendarExercises" key={key}>
+                            <div
+                                className="calendarExercises"
+                                key={key}
+                                onClick={this.props.togglePopup}
+                            >
                                 {exercise.exerciseType}
+                                <span class="tooltip-text">{tooltipText}</span>
                             </div>
                         );
                     }

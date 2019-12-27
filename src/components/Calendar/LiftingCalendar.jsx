@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Person } from 'blockstack';
 import CalendarDates from './CalendarDates';
 import CalendarHeader from './CalendarHeader';
-import CalendarPopup from './CalendarPopup';
 import { calendarTypes } from '../../utils/Constants';
 import { appConfig, BlockstackUtils } from '../../utils/Blockstack';
 import { UserSession } from 'blockstack';
 import { addMonths, subMonths } from 'date-fns';
+import uuidv4 from 'uuid/v4';
 
 const avatarFallbackImage =
     'https://s3.amazonaws.com/onename/avatar-placeholder.png';
@@ -38,6 +38,7 @@ export default class LiftingCalendar extends Component {
                 },
             },
             selectedDate: new Date(),
+            selectedExercise: {},
             selectedHour: '',
             calendarType: calendarTypes.Month,
             showPopup: false,
@@ -59,34 +60,17 @@ export default class LiftingCalendar extends Component {
                 ></CalendarHeader>
                 <CalendarDates
                     calendarType={this.state.calendarType}
+                    exercises={this.props.exercises}
                     selectDate={this.selectDate}
-                    selectHour={this.selectHour}
                     selectedDate={this.state.selectedDate}
                     selectedHour={this.state.selectedHour}
-                    updateDateRange={this.props.updateDateRange}
+                    selectHour={this.selectHour}
                     showPopup={this.state.showPopup}
                     togglePopup={this.togglePopup}
-                    exercises={this.props.exercises}
+                    updateDateRange={this.props.updateDateRange}
+                    updateExercises={this.props.updateExercises}
+                    userSession={this.props.userSession}
                 ></CalendarDates>
-                <div
-                    style={{ display: this.state.showPopup ? 'block' : 'none' }}
-                >
-                    <CalendarPopup
-                        closePopup={this.togglePopup}
-                        selectedDate={this.state.selectedDate}
-                        selectedHour={this.state.selectedHour}
-                    ></CalendarPopup>
-                </div>
-                {/* {this.state.showPopup ? (
-                    <CalendarPopup
-                        text='Click "Close Button" to hide popup'
-                        closePopup={() =>
-                            this.togglePopup(this.state.showPopup)
-                        }
-                        selectedDate={this.state.selectedDate}
-                        selectedHour={this.state.selectedHour}
-                    />
-                ) : null} */}
             </div>
         );
     }
@@ -111,7 +95,14 @@ export default class LiftingCalendar extends Component {
             .catch(err => console.log(err));
     }
 
-    togglePopup = () => {
+    togglePopup = (
+        exercise = {
+            id: uuidv4(),
+        }
+    ) => {
+        this.setState({ selectedExercise: exercise }, () => {
+            console.log('selected exercise ', exercise);
+        });
         this.setState({
             showPopup: !this.state.showPopup,
         });

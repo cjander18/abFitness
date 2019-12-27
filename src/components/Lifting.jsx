@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ExerciseList from './ExerciseList';
-import LiftingInput from './LiftingInput';
 import LiftingCalendar from './Calendar/LiftingCalendar';
 import { BlockstackUtils } from '../utils/Blockstack';
 import { endOfMonth, startOfMonth } from 'date-fns';
@@ -64,16 +62,6 @@ export default class Lifting extends Component {
                         updateExercises={this.updateExercises}
                         userSession={this.props.userSession}
                     ></LiftingCalendar>
-                    <ExerciseList
-                        dateRange={this.state.dateRange}
-                        exercises={this.state.exercises}
-                        userSession={this.props.userSession}
-                    ></ExerciseList>
-                    <LiftingInput
-                        exercises={this.state.exercises}
-                        userSession={this.props.userSession}
-                        updateExercises={this.updateExercises}
-                    ></LiftingInput>
                 </div>
             </div>
         );

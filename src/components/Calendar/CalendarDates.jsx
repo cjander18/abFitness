@@ -24,6 +24,7 @@ export default class CalendarDates extends Component {
                             togglePopup={this.props.togglePopup}
                             exercises={this.props.exercises}
                             updateExercises={this.props.updateExercises}
+                            userSession={this.props.userSession}
                         ></CalendarDay>
                     </div>
                 </div>
@@ -41,6 +42,7 @@ export default class CalendarDates extends Component {
                     togglePopup={this.props.togglePopup}
                     exercises={this.props.exercises}
                     updateExercises={this.props.updateExercises}
+                    userSession={this.props.userSession}
                 ></CalendarWeek>
             );
         } else if (calendarType === calendarTypes.Month) {
@@ -55,6 +57,7 @@ export default class CalendarDates extends Component {
                     togglePopup={this.props.togglePopup}
                     exercises={this.props.exercises}
                     updateExercises={this.props.updateExercises}
+                    userSession={this.props.userSession}
                 ></CalendarMonth>
             );
         } else if (calendarType === calendarTypes.Year) {
@@ -72,6 +75,7 @@ export default class CalendarDates extends Component {
                 togglePopup={this.props.togglePopup}
                 exercises={this.props.exercises}
                 updateExercises={this.props.updateExercises}
+                userSession={this.props.userSession}
             ></CalendarMonth>
         );
     }

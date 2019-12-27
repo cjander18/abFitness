@@ -1,5 +1,5 @@
 .calendar {
-    display: absolute;
+    display: block;
     /* position: relative; */
     width: 100%;
     background: var(--neutral-color);
@@ -209,9 +209,32 @@
     border-radius: 25px;
 }
 
+/* Show the tooltip text when you mouse over the tooltip container */
+.calendarExercises:hover .tooltip-text {
+    visibility: visible;
+}
+
 .popup {
-    position: fixed;
-    z-index: 100;
-    top: 0;
+    position: relative;
+
+    z-index: 2;
+    /* top: 0; */
     background-color: #abb2b4;
+    overflow: auto;
+
+    -webkit-box-shadow: -1px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: -1px 0 5px rgba(0, 0, 0, 0.1);
+    -webkit-transition: right 0.4s ease-in-out;
+    transition: right 0.4s ease-in-out;
+}
+
+.popup .popup_inner {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 3;
 }

@@ -3,24 +3,63 @@ import { BlockstackUtils } from '../utils/Blockstack';
 import { Button } from 'shards-react';
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
+import uuidv4 from 'uuid/v4';
 
 export default class LiftingInput extends Component {
     constructor(props) {
         super(props);
+
+        let exerciseType = '';
+        let repetitions = 0;
+        let sets = 0;
+        let weightLifted = 0;
+        let date = new Date();
+
+        const { selectedExercise } = this.props;
+        if (selectedExercise) {
+            ({
+                exerciseType,
+                repetitions,
+                sets,
+                weightLifted,
+                date,
+            } = selectedExercise);
+            date = new Date(date);
+        }
+
         this.state = {
-            exerciseDate: new Date(),
+            exerciseDate: date,
             exercises: [],
-            exerciseType: '',
-            repetitions: 0,
-            sets: 0,
-            weightLifted: 0,
+            exerciseType,
+            repetitions,
+            sets,
+            weightLifted,
         };
     }
 
-    async saveExercise() {
-        console.log('SAVINGGGGG');
-        const exercises = this.props.exercises;
+    async updateExercise() {
+        const { selectedExercise } = this.props;
+        const exercises = this.props.exercises.filter(
+            exercise => exercise.id !== selectedExercise.id
+        );
+
+        this.saveExercise(exercises);
+    }
+
+    async deleteExercise() {
+        const { selectedExercise } = this.props;
+        const exercises = this.props.exercises.filter(
+            exercise => exercise.id !== selectedExercise.id
+        );
+
+        await BlockstackUtils.setExercises(exercises);
+        await this.props.updateExercises(exercises);
+    }
+
+    async saveExercise(exercisesArr) {
+        const exercises = exercisesArr || this.props.exercises;
         exercises.push({
+            id: uuidv4(),
             exerciseType: this.state.exerciseType,
             repetitions: this.state.repetitions,
             sets: this.state.sets,
@@ -32,41 +71,33 @@ export default class LiftingInput extends Component {
     }
 
     incrementRepetitions = add => {
-        this.setState(
-            {
-                repetitions: add
-                    ? (this.state.repetitions || 0) + 1
-                    : (this.state.repetitions || 0) - 1,
-            },
-            () => console.log(`Rep is now: `, this.state.repetitions)
-        );
+        this.setState({
+            repetitions: add
+                ? (this.state.repetitions || 0) + 1
+                : (this.state.repetitions || 0) - 1,
+        });
     };
 
     incrementSets = add => {
-        this.setState(
-            {
-                sets: add
-                    ? (this.state.sets || 0) + 1
-                    : (this.state.sets || 0) - 1,
-            },
-            () => console.log(`Set is now: `, this.state.sets)
-        );
+        this.setState({
+            sets: add ? (this.state.sets || 0) + 1 : (this.state.sets || 0) - 1,
+        });
     };
 
     incrementWeightLifted = add => {
-        this.setState(
-            {
-                weightLifted: add
-                    ? (this.state.weightLifted || 0) + 1
-                    : (this.state.weightLifted || 0) - 1,
-            },
-            () => console.log(`Weight lifted is now: `, this.state.weightLifted)
-        );
+        this.setState({
+            weightLifted: add
+                ? (this.state.weightLifted || 0) + 1
+                : (this.state.weightLifted || 0) - 1,
+        });
     };
 
     render() {
         return (
             <div className="liftingInput">
+                <button className="close" onClick={this.props.close}>
+                    &times;
+                </button>
                 <div className="oneLineInputDiv">
                     <span>
                         <label>Exercise:</label>
@@ -77,6 +108,7 @@ export default class LiftingInput extends Component {
                             placeholder="Exercise Type"
                             title="Exercise Type"
                             className="exerciseType"
+                            value={this.state.exerciseType}
                             onChange={event =>
                                 this.setState({
                                     exerciseType: event.target.value,
@@ -219,13 +251,34 @@ export default class LiftingInput extends Component {
                     </Button>
                 </div>
                 <div className="inlineButton">
-                    <button
-                        id="addExercise"
-                        type="button"
-                        onClick={() => this.saveExercise()}
-                    >
-                        Add
-                    </button>
+                    {this.props.selectedExercise.exerciseType ? (
+                        <span>
+                            <button
+                                id="updateExercise"
+                                name="updateExercise"
+                                type="button"
+                                onClick={() => this.updateExercise()}
+                            >
+                                Update
+                            </button>
+                            <button
+                                id="deleteExercise"
+                                name="deleteExercise"
+                                type="button"
+                                onClick={() => this.deleteExercise()}
+                            >
+                                Delete
+                            </button>
+                        </span>
+                    ) : (
+                        <button
+                            id="addExercise"
+                            type="button"
+                            onClick={() => this.saveExercise()}
+                        >
+                            Add
+                        </button>
+                    )}
                 </div>
             </div>
         );

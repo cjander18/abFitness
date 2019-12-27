@@ -10,8 +10,54 @@ import {
     startOfMonth,
     startOfWeek,
 } from 'date-fns';
+import Popup from 'reactjs-popup';
+import LiftingInput from '../LiftingInput';
 
 export default class CalendarMonth extends Component {
+    buildExerciseDivs(day, exercises) {
+        return exercises.map(exercise => {
+            if (compareAsc(new Date(exercise.date), day) === 0) {
+                const pluralSets = exercise.sets > 1;
+                const pluralReps = exercise.repetitions > 1;
+                const tooltipText = `${exercise.sets} ${
+                    pluralSets ? 'sets' : 'set'
+                } of ${exercise.repetitions} ${
+                    pluralReps ? 'reps' : 'rep'
+                } at ${exercise.weightLifted}lbs`;
+                return (
+                    <Popup
+                        key={exercise.id}
+                        trigger={
+                            <div
+                                className="calendarExercises"
+                                key={exercise.id}
+                            >
+                                {exercise.exerciseType}
+                                <span className="tooltip-text">
+                                    {tooltipText}
+                                </span>
+                            </div>
+                        }
+                        modal
+                        closeOnDocumentClick
+                    >
+                        {close => (
+                            <LiftingInput
+                                close={close}
+                                exercises={this.props.exercises}
+                                key={exercise.id}
+                                selectedExercise={exercise}
+                                updateExercises={this.props.updateExercises}
+                                userSession={this.props.userSession}
+                            ></LiftingInput>
+                        )}
+                    </Popup>
+                );
+            }
+            return undefined;
+        });
+    }
+
     render() {
         const { selectedDate = new Date(), exercises = [] } = this.props;
 
@@ -19,8 +65,6 @@ export default class CalendarMonth extends Component {
         const monthEnd = endOfMonth(selectedDate);
         const startDate = startOfWeek(monthStart);
         const endDate = endOfWeek(monthEnd);
-
-        // this.props.updateDateRange({ startDate, endDate });
 
         const dateFormat = 'd';
         const rows = [];
@@ -32,31 +76,7 @@ export default class CalendarMonth extends Component {
                 formattedDate = format(day, dateFormat);
                 const cloneDay = day;
 
-                let count = 0;
-                const exerciseDivs = exercises.map(exercise => {
-                    if (compareAsc(new Date(exercise.date), day) === 0) {
-                        const key = exercise.exerciseType + count;
-                        const pluralSets = exercise.sets > 1;
-                        const pluralReps = exercise.repetitions > 1;
-                        const tooltipText = `${exercise.sets} ${
-                            pluralSets ? 'sets' : 'set'
-                        } of ${exercise.repetitions} ${
-                            pluralReps ? 'reps' : 'rep'
-                        } at ${exercise.weightLifted}lbs`;
-                        count = count + 1;
-                        return (
-                            <div
-                                className="calendarExercises"
-                                key={key}
-                                onClick={this.props.togglePopup}
-                            >
-                                {exercise.exerciseType}
-                                <span class="tooltip-text">{tooltipText}</span>
-                            </div>
-                        );
-                    }
-                    return undefined;
-                });
+                const exerciseDivs = this.buildExerciseDivs(day, exercises);
 
                 days.push(
                     <div
@@ -68,7 +88,10 @@ export default class CalendarMonth extends Component {
                                 : ''
                         }`}
                         key={day}
-                        onClick={() => this.props.selectDate(cloneDay)}
+                        onClick={() => {
+                            this.props.selectDate(cloneDay);
+                            this.props.togglePopup();
+                        }}
                     >
                         <span className="number">{formattedDate}</span>
                         <div className="spanCalendarExercises">

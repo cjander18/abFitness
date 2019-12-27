@@ -13,7 +13,7 @@ a:hover {
 html,
 body {
     height: 100%;
-    background-color: #f4f4fc;
+    background-color: #fff;
 }
 body {
     color: #3700ff;
@@ -60,6 +60,7 @@ body {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
+    position: relative;
 }
 
 /* Avatar */
@@ -97,7 +98,7 @@ body {
     font-family: 'Source Code Pro', monospace;
     font-size: 11px;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.15);
     top: 15px;
     left: 15px;
     padding: 3px 20px;

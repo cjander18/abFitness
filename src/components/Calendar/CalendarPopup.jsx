@@ -1,38 +1,23 @@
 import React, { Component } from 'react';
-import { calendarTypes } from '../../utils/Constants';
-import { appConfig, BlockstackUtils } from '../../utils/Blockstack';
-import { UserSession } from 'blockstack';
+import LiftingInput from '../LiftingInput';
 
 export default class CalendarPopup extends Component {
-    constructor(props) {
-        super(props);
-
-        this.userSession = new UserSession({ appConfig });
-    }
-
     render() {
+        const { closePopup, selectedDate, selectedHour } = this.props;
         return (
-            <div className="popup">
-                <div className="popup\_inner">
-                    <h1>
-                        {this.props.selectedDate.toDateString()}{' '}
-                        {this.props.selectedHour}
-                    </h1>
-                    <form>
-                        <label>Title</label>
-                        <input name="Title" type="text" />
-                        <label>Guests</label>
-                        <input name="Guests" type="text" />
-                        <label>Location</label>
-                        <input name="Location" type="text" />
-                        <label>Description</label>
-                        <input name="Description" type="text" />
-                        <button name="Save" type="button">
-                            Save
-                        </button>
-                    </form>
-                    <button onClick={this.props.closePopup}>close me</button>
-                </div>
+            <div className="popup\_inner">
+                <h1>
+                    {selectedDate.toDateString()} {selectedHour}
+                </h1>
+
+                <LiftingInput
+                    key={this.props.selectedExercise.id}
+                    exercises={this.props.exercises}
+                    selectedExercise={this.props.selectedExercise}
+                    updateExercises={this.props.updateExercises}
+                    userSession={this.props.userSession}
+                ></LiftingInput>
+                <button onClick={closePopup}>close me</button>
             </div>
         );
     }

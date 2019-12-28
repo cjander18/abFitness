@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'shards-react';
 import {
     addDays,
     compareAsc,
@@ -90,9 +91,34 @@ export default class CalendarMonth extends Component {
                         key={day}
                         onClick={() => {
                             this.props.selectDate(cloneDay);
-                            this.props.togglePopup();
                         }}
                     >
+                        <Popup
+                            key={`${day}Add`}
+                            trigger={
+                                <span className="span-addExercise">
+                                    <Button
+                                        type="button"
+                                        theme="secondary"
+                                        className="btn-addExercise"
+                                    >
+                                        +
+                                    </Button>
+                                </span>
+                            }
+                            modal
+                            closeOnDocumentClick
+                        >
+                            {close => (
+                                <LiftingInput
+                                    close={close}
+                                    exercises={this.props.exercises}
+                                    key={`${day}Btn`}
+                                    updateExercises={this.props.updateExercises}
+                                    userSession={this.props.userSession}
+                                ></LiftingInput>
+                            )}
+                        </Popup>
                         <span className="number">{formattedDate}</span>
                         <div className="spanCalendarExercises">
                             {exerciseDivs}

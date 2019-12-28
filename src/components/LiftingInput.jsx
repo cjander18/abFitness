@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BlockstackUtils } from '../utils/Blockstack';
 import { Button } from 'shards-react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import uuidv4 from 'uuid/v4';
 
@@ -68,6 +68,7 @@ export default class LiftingInput extends Component {
         });
         await BlockstackUtils.setExercises(exercises);
         await this.props.updateExercises(exercises);
+        this.props.close();
     }
 
     incrementRepetitions = add => {
@@ -129,15 +130,17 @@ export default class LiftingInput extends Component {
                                 this.state.exerciseDate,
                                 'yyyy-MM-dd'
                             )}
-                            onChange={event =>
-                                this.setState({
-                                    exerciseDate: utcToZonedTime(
-                                        event.target.value,
-                                        Intl.DateTimeFormat().resolvedOptions()
-                                            .timeZone
-                                    ),
-                                })
-                            }
+                            onChange={event => {
+                                if (Date.parse(event.target.value)) {
+                                    this.setState({
+                                        exerciseDate: utcToZonedTime(
+                                            event.target.value,
+                                            Intl.DateTimeFormat().resolvedOptions()
+                                                .timeZone
+                                        ),
+                                    });
+                                }
+                            }}
                         ></input>
                     </span>
                 </div>
@@ -251,7 +254,8 @@ export default class LiftingInput extends Component {
                     </Button>
                 </div>
                 <div className="inlineButton">
-                    {this.props.selectedExercise.exerciseType ? (
+                    {this.props.selectedExercise &&
+                    this.props.selectedExercise.exerciseType ? (
                         <span>
                             <button
                                 id="updateExercise"

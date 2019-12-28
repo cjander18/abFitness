@@ -49,6 +49,22 @@ body {
     user-select: none;
 }
 
+.btn-addExercise {
+    padding: 0.5em;
+    font-size: 0.75em;
+    border-radius: 80%;
+    line-height: 0.5em;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .btn:focus,
 .btn:active:focus,
 .btn.active:focus {

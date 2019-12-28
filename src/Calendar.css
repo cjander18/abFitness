@@ -135,6 +135,10 @@
     border-right: none;
 }
 
+.calendar .body .cell:hover .span-addExercise {
+    display: inherit;
+}
+
 .calendar .body .cell .number {
     position: absolute;
     font-size: 82.5%;
@@ -202,6 +206,7 @@
 .calendarExercises {
     color: #3700ff;
     line-height: 1em;
+    z-index: 3;
 }
 
 .calendarExercises:hover {
@@ -237,4 +242,14 @@
     padding: 8px 0;
     position: absolute;
     z-index: 3;
+}
+
+.span-addExercise {
+    display: none;
+    position: absolute;
+    font-size: 82.5%;
+    line-height: 1em;
+    top: 0.25em;
+    left: 0.25em;
+    font-weight: 700;
 }

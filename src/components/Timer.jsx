@@ -249,12 +249,14 @@ export default class Timer extends Component {
                                 }
                                 required
                             ></input>
+                        </div>
+                        <div className="oneLineInputDiv">
                             <label>Rounds</label>
                             <input
                                 type="number"
                                 id="numberOfRounds"
                                 name="numberOfRounds"
-                                placeholder="Number of rounds"
+                                placeholder="# of rounds"
                                 className="numberOfRounds"
                                 title="Number of rounds"
                                 size="3"
@@ -273,7 +275,7 @@ export default class Timer extends Component {
                                 type="number"
                                 placeholder="h"
                                 title="Round hour duration"
-                                className="timerTimeSet"
+                                className="timerTimeSet timerTimeStart"
                                 size="2"
                                 onChange={event =>
                                     this.setState({
@@ -290,7 +292,7 @@ export default class Timer extends Component {
                                 type="number"
                                 placeholder="m"
                                 title="Round minute duration"
-                                className="timerTimeSet"
+                                className="timerTimeSet timerTimeMiddle"
                                 size="2"
                                 onChange={event =>
                                     this.setState({
@@ -307,7 +309,7 @@ export default class Timer extends Component {
                                 type="number"
                                 placeholder="s"
                                 title="Round second duration"
-                                className="timerTimeSet inputHalfSize"
+                                className="timerTimeSet timerTimeEnd"
                                 size="2"
                                 onChange={event =>
                                     this.setState({
@@ -326,7 +328,7 @@ export default class Timer extends Component {
                                 type="number"
                                 placeholder="h"
                                 title="Break hour duration"
-                                className="timerTimeSet"
+                                className="timerTimeSet timerTimeStart"
                                 size="2"
                                 onChange={event =>
                                     this.setState({
@@ -343,7 +345,7 @@ export default class Timer extends Component {
                                 type="number"
                                 placeholder="m"
                                 title="Break minute duration"
-                                className="timerTimeSet"
+                                className="timerTimeSet timerTimeMiddle"
                                 size="2"
                                 onChange={event =>
                                     this.setState({
@@ -360,7 +362,7 @@ export default class Timer extends Component {
                                 type="number"
                                 placeholder="s"
                                 title="Break second duration"
-                                className="timerTimeSet inputHalfSize"
+                                className="timerTimeSet timerTimeEnd"
                                 size="2"
                                 onChange={event =>
                                     this.setState({
@@ -371,31 +373,38 @@ export default class Timer extends Component {
                                 }
                             ></input>
                         </div>
-                        <div className="inlineButton">
-                            <button
-                                id="saveTimer"
-                                type="button"
-                                onClick={() => this.saveTimer()}
-                            >
-                                Save
-                            </button>
-                        </div>
-                        <div className="inlineButton">
-                            <button id="startTimer" type="submit">
-                                Start
-                            </button>
+                        <div className="oneLineInputDiv">
+                            <div className="inlineButton">
+                                <button
+                                    id="saveTimer"
+                                    type="button"
+                                    className="btn btn-blue mx-1 timerTimeMiddle"
+                                    onClick={() => this.saveTimer()}
+                                >
+                                    Save
+                                </button>
+                            </div>
+                            <div className="inlineButton">
+                                <button
+                                    id="startTimer"
+                                    type="submit"
+                                    className="btn btn-orange mx-1 timerTimeMiddle"
+                                >
+                                    Start
+                                </button>
+                            </div>
                         </div>
                     </form>
                     <div className="timerCount">
-                        <h1>
+                        <p className="timerText">
                             {this.state.displayType}&nbsp;-&nbsp;
                             {this.state.remainingRounds}
-                        </h1>
-                        <h1>
+                        </p>
+                        <p className="timerText">
                             {this.state.displayHours}:
                             {this.state.displayMinutes}:
                             {this.state.displaySeconds}
-                        </h1>
+                        </p>
                     </div>
                 </div>
                 <div className="savedTimers">
@@ -406,7 +415,6 @@ export default class Timer extends Component {
                         </div>
                     ))}
                 </div>
-                <div className="createTimer">create</div>
             </div>
         );
     }

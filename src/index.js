@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'shards-ui/dist/css/shards.min.css';
 
 import './styles/style.css';
-// import './styles/tailwind.css';
+import './styles/tailwind.css';
 
 ReactDOM.render(
     <BrowserRouter>

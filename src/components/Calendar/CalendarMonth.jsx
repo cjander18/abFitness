@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'shards-react';
 import {
     addDays,
     compareAsc,
@@ -15,6 +14,31 @@ import Popup from 'reactjs-popup';
 import LiftingInput from '../LiftingInput';
 
 export default class CalendarMonth extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            openNewExercise: false,
+            openUpdateExercise: false,
+        };
+        this.openNewModal = this.openNewModal.bind(this);
+        this.openUpdateModal = this.openUpdateModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    openNewModal(id) {
+        this.setState({ openNewExercise: id.toString() });
+    }
+
+    openUpdateModal(id) {
+        this.setState({ openUpdateModal: id.toString() });
+    }
+
+    closeModal() {
+        this.setState({ openNewExercise: false });
+        this.setState({ openUpdateModal: false });
+    }
+
     buildExerciseDivs(day, exercises) {
         return exercises.map(exercise => {
             if (compareAsc(new Date(exercise.date), day) === 0) {
@@ -25,34 +49,37 @@ export default class CalendarMonth extends Component {
                 } of ${exercise.repetitions} ${
                     pluralReps ? 'reps' : 'rep'
                 } at ${exercise.weightLifted}lbs`;
+
                 return (
-                    <Popup
+                    <div
+                        className="calendarExercises"
                         key={exercise.id}
-                        trigger={
-                            <div
-                                className="calendarExercises"
-                                key={exercise.id}
-                            >
-                                {exercise.exerciseType}
-                                <span className="tooltip-text">
-                                    {tooltipText}
-                                </span>
-                            </div>
-                        }
-                        modal
-                        closeOnDocumentClick
+                        onClick={e => {
+                            this.openUpdateModal(exercise.id);
+                            e.stopPropagation();
+                        }}
+                        onMouseDown={e => e.stopPropagation()}
                     >
-                        {close => (
-                            <LiftingInput
-                                close={close}
-                                exercises={this.props.exercises}
-                                key={exercise.id}
-                                selectedExercise={exercise}
-                                updateExercises={this.props.updateExercises}
-                                userSession={this.props.userSession}
-                            ></LiftingInput>
-                        )}
-                    </Popup>
+                        <div>{exercise.exerciseType}</div>
+                        <Popup
+                            key={exercise.id}
+                            open={this.state.openUpdateModal === exercise.id}
+                            modal
+                            closeOnDocumentClick
+                            onClose={this.closeModal}
+                        >
+                            {close => (
+                                <LiftingInput
+                                    close={this.closeModal}
+                                    exercises={this.props.exercises}
+                                    key={exercise.id}
+                                    selectedExercise={exercise}
+                                    updateExercises={this.props.updateExercises}
+                                    userSession={this.props.userSession}
+                                ></LiftingInput>
+                            )}
+                        </Popup>
+                    </div>
                 );
             }
             return undefined;
@@ -88,41 +115,35 @@ export default class CalendarMonth extends Component {
                                 ? 'selected'
                                 : ''
                         }`}
-                        key={day}
+                        key={cloneDay}
                         onClick={() => {
                             this.props.selectDate(cloneDay);
+                            this.openNewModal(cloneDay);
                         }}
                     >
+                        <div>
+                            <span className="number">{formattedDate}</span>
+                            <div className="spanCalendarExercises">
+                                {exerciseDivs}
+                            </div>
+                        </div>
                         <Popup
-                            key={`${day}Add`}
-                            trigger={
-                                <span className="span-addExercise">
-                                    <Button
-                                        type="button"
-                                        theme="secondary"
-                                        className="btn-addExercise"
-                                    >
-                                        +
-                                    </Button>
-                                </span>
-                            }
+                            key={`${cloneDay}Add`}
+                            open={this.state.openNewExercise == cloneDay}
                             modal
                             closeOnDocumentClick
+                            onClose={this.closeModal}
                         >
                             {close => (
                                 <LiftingInput
-                                    close={close}
                                     exercises={this.props.exercises}
-                                    key={`${day}Btn`}
+                                    key={`${cloneDay}Btn`}
+                                    exerciseDate={cloneDay}
                                     updateExercises={this.props.updateExercises}
                                     userSession={this.props.userSession}
                                 ></LiftingInput>
                             )}
                         </Popup>
-                        <span className="number">{formattedDate}</span>
-                        <div className="spanCalendarExercises">
-                            {exerciseDivs}
-                        </div>
                     </div>
                 );
                 day = addDays(day, 1);

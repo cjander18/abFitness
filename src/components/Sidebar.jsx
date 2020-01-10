@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class Sidebar extends Component {
     render() {
         return (
-            <div className="sidebarInner">
+            <div className="sidebar">
                 <button
                     className={`sidebarItem${
                         this.props.selectedTab === 'Home' ? ' selected' : ''

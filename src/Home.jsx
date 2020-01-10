@@ -22,7 +22,7 @@ export default class Home extends Component {
                     return avatarFallbackImage;
                 },
             },
-            selectedTab: 'Home',
+            selectedTab: 'Timer',
         };
 
         this.userSession = new UserSession({ appConfig });
@@ -33,13 +33,11 @@ export default class Home extends Component {
         // const { person } = this.state
         return !userSession.isSignInPending() ? (
             <ErrorBoundary>
-                <div className="aggregate">
-                    <div className="sidebar">
-                        <Sidebar
-                            selectedTab={this.state.selectedTab}
-                            selectTab={this.selectTab}
-                        ></Sidebar>
-                    </div>
+                <div className="divFlex">
+                    <Sidebar
+                        selectedTab={this.state.selectedTab}
+                        selectTab={this.selectTab}
+                    ></Sidebar>
                     <div className="main">
                         <Main
                             userSession={this.props.userSession}

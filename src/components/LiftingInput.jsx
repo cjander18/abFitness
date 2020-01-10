@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BlockstackUtils } from '../utils/Blockstack';
-import { Button } from 'shards-react';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import uuidv4 from 'uuid/v4';
 
@@ -28,7 +27,7 @@ export default class LiftingInput extends Component {
         }
 
         this.state = {
-            exerciseDate: date,
+            exerciseDate: this.props.exerciseDate || date,
             exercises: [],
             exerciseType,
             repetitions,
@@ -71,28 +70,6 @@ export default class LiftingInput extends Component {
         this.props.close();
     }
 
-    incrementRepetitions = add => {
-        this.setState({
-            repetitions: add
-                ? (this.state.repetitions || 0) + 1
-                : (this.state.repetitions || 0) - 1,
-        });
-    };
-
-    incrementSets = add => {
-        this.setState({
-            sets: add ? (this.state.sets || 0) + 1 : (this.state.sets || 0) - 1,
-        });
-    };
-
-    incrementWeightLifted = add => {
-        this.setState({
-            weightLifted: add
-                ? (this.state.weightLifted || 0) + 1
-                : (this.state.weightLifted || 0) - 1,
-        });
-    };
-
     render() {
         return (
             <div className="liftingInput">
@@ -101,7 +78,7 @@ export default class LiftingInput extends Component {
                 </button>
                 <div className="oneLineInputDiv">
                     <span>
-                        <label>Exercise:</label>
+                        <label className="my-0">Exercise:</label>
                         <input
                             id="exerciseType"
                             name="exerciseType"
@@ -117,8 +94,10 @@ export default class LiftingInput extends Component {
                             }
                         ></input>
                     </span>
+                </div>
+                <div className="oneLineInputDiv">
                     <span>
-                        <label>Date:</label>
+                        <label className="my-0">Date:</label>
                         <input
                             id="exerciseDate"
                             name="exerciseDate"
@@ -146,15 +125,7 @@ export default class LiftingInput extends Component {
                 </div>
                 <div className="oneLineInputDiv">
                     <span className="exerciseCounter">
-                        <label>Sets:</label>
-                        <Button
-                            type="button"
-                            theme="secondary"
-                            className="btn-increment"
-                            onClick={() => this.incrementSets(false)}
-                        >
-                            -
-                        </Button>
+                        <label className="my-0">Sets:</label>
                         <input
                             id="sets"
                             name="sets"
@@ -170,25 +141,9 @@ export default class LiftingInput extends Component {
                                 })
                             }
                         ></input>
-                        <Button
-                            type="button"
-                            theme="secondary"
-                            className="btn-increment"
-                            onClick={() => this.incrementSets(true)}
-                        >
-                            +
-                        </Button>
                     </span>
                     <span className="exerciseCounter">
-                        <label>Reps:</label>
-                        <Button
-                            type="button"
-                            theme="secondary"
-                            className="btn-increment"
-                            onClick={() => this.incrementRepetitions(false)}
-                        >
-                            -
-                        </Button>
+                        <label className="my-0">Reps:</label>
                         <input
                             id="repetitions"
                             name="repetitions"
@@ -207,26 +162,10 @@ export default class LiftingInput extends Component {
                                 })
                             }
                         ></input>
-                        <Button
-                            type="button"
-                            theme="secondary"
-                            className="btn-increment"
-                            onClick={() => this.incrementRepetitions(true)}
-                        >
-                            +
-                        </Button>
                     </span>
                 </div>
                 <div className="oneLineInputDiv">
-                    <label>Weight:</label>
-                    <Button
-                        type="button"
-                        theme="secondary"
-                        className="btn-increment"
-                        onClick={() => this.incrementWeightLifted(false)}
-                    >
-                        -
-                    </Button>
+                    <label className="my-0">Weight:</label>
                     <input
                         id="weightLifted"
                         name="weightLifted"
@@ -244,39 +183,35 @@ export default class LiftingInput extends Component {
                             })
                         }
                     ></input>
-                    <Button
-                        type="button"
-                        theme="secondary"
-                        className="btn-increment"
-                        onClick={() => this.incrementWeightLifted(true)}
-                    >
-                        +
-                    </Button>
                 </div>
                 <div className="inlineButton">
                     {this.props.selectedExercise &&
                     this.props.selectedExercise.exerciseType ? (
                         <span>
                             <button
-                                id="updateExercise"
-                                name="updateExercise"
-                                type="button"
-                                onClick={() => this.updateExercise()}
-                            >
-                                Update
-                            </button>
-                            <button
                                 id="deleteExercise"
                                 name="deleteExercise"
+                                className="btn btn-orange mx-1"
                                 type="button"
                                 onClick={() => this.deleteExercise()}
                             >
                                 Delete
                             </button>
+                            <button
+                                id="updateExercise"
+                                name="updateExercise"
+                                className="btn btn-blue mx-1"
+                                type="button"
+                                onClick={() => this.updateExercise()}
+                            >
+                                Update
+                            </button>
                         </span>
                     ) : (
                         <button
                             id="addExercise"
+                            name="addExercise"
+                            className="btn btn-blue mx-1"
                             type="button"
                             onClick={() => this.saveExercise()}
                         >

@@ -11387,6 +11387,14 @@ video {
   z-index: auto;
 }
 
+.navbar {
+  /* background-color: bg-blue-500 !important; */
+  background-color: #4299e1 !important;
+  color: #fff !important;
+  border-radius: 0;
+  position: relative;
+}
+
 .btn {
   font-weight: 700;
   padding-top: 0.5rem;
@@ -11401,8 +11409,15 @@ video {
   color: #fff;
 }
 
-.btn-orange:hover {
+.btn-orange:hover:enabled,
+.btn-orange:focus:enabled {
   background-color: #c05621;
+}
+
+.btn-orange:hover:disabled,
+.btn-orange:focus:disabled {
+  color: #fff;
+  cursor: default;
 }
 
 .btn-blue {
@@ -11410,8 +11425,20 @@ video {
   color: #fff;
 }
 
-.btn-blue:hover {
+.btn-blue:hover:enabled,
+.btn-blue:focus:enabled {
   background-color: #2b6cb0;
+}
+
+.btn-blue:hover:disabled,
+.btn-blue:focus:disabled {
+  color: #fff;
+  cursor: default;
+}
+
+input,
+textarea {
+  color: #2d3748;
 }
 
 input {
@@ -11431,15 +11458,14 @@ input {
   line-height: 1.5;
 }
 
+input:hover,
 input:focus {
   outline: 0;
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
 }
 
 .main {
-  display: -webkit-box;
-  display: flex;
-  flex-wrap: wrap;
+  display: block;
   width: 100%;
   position: relative;
 }
@@ -11466,19 +11492,14 @@ input:focus {
 
 .startTimer {
   width: 100%;
-  display: -webkit-inline-box;
-  display: inline-flex;
+  display: block;
   position: relative;
+  float: none;
 }
 
 .startTimerForm {
-  display: -webkit-box;
-  display: flex;
+  display: block;
   width: 100%;
-  flex-wrap: wrap;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-          flex-direction: row;
 }
 
 .timerTimeSet {
@@ -11528,30 +11549,25 @@ input:focus {
 }
 
 .timerCount {
-  display: -webkit-box;
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-          flex-direction: column;
-  -webkit-box-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-          align-items: center;
+  display: block;
   font-size: 4rem;
-  font-weight: 800;
+  font-weight: 700;
+  color: #2d3748;
+  position: static;
+  float: none;
+  margin: 0;
 }
 
-.timerText {
+.timerTextLine {
   width: 100%;
 }
 
 .savedTimers {
   width: 100%;
-  display: -webkit-inline-box;
-  display: inline-flex;
-  position: relative;
+  font-weight: 700;
+  color: #718096;
+  display: block;
+  position: static;
 }
 
 .sidebar {
@@ -11576,6 +11592,22 @@ input:focus {
   outline: 0.025rem solid blue;
 }
 
+.deleteTimer:hover,
+.deleteTimer:focus {
+  cursor: pointer;
+}
+
+.selectTimer {
+  color: #2d3748;
+}
+
+.selectTimer:hover,
+.selectTimer:focus {
+  background-color: #4299e1;
+  color: #fff;
+  cursor: pointer;
+}
+
 @media (min-width: 768px) {
   .divFlex {
     -webkit-box-orient: horizontal;
@@ -11592,12 +11624,27 @@ input:focus {
   }
 
   .timer {
-    flex-wrap: wrap;
+    display: block;
     font-size: 1rem;
     width: 100%;
-    display: -webkit-inline-box;
-    display: inline-flex;
     position: relative;
+  }
+
+  .timerCount {
+    display: inline-block;
+    font-size: 4rem;
+    font-weight: 700;
+    position: relative;
+    width: 40%;
+    margin: 0;
+    margin-top: 1em;
+  }
+
+  .startTimerForm {
+    display: inline-block;
+    width: 50%;
+    position: relative;
+    /* margin-left: -20em; */
   }
 
   .sidebar {

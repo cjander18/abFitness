@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { BlockstackUtils } from '../utils/Blockstack';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import uuidv4 from 'uuid/v4';
 
 export default class Timer extends Component {
     constructor(props) {
@@ -15,6 +18,8 @@ export default class Timer extends Component {
             displayHours: '00',
             displayMinutes: '00',
             displaySeconds: '00',
+            manageTimerText: 'Stop',
+            manageTimerEnabled: false,
             remainingRounds: 0,
             remainingHours: 0,
             remainingMinutes: 0,
@@ -23,7 +28,7 @@ export default class Timer extends Component {
             roundHours: 0,
             roundMinutes: 0,
             roundSeconds: 0,
-            timerName: '',
+            name: '',
             timers: [],
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,9 +38,9 @@ export default class Timer extends Component {
     }
 
     async saveTimer() {
-        console.log('SAVINGGGGG');
         const timers = this.state.timers;
         timers.push({
+            id: uuidv4(),
             breakHours: this.state.breakHours,
             breakMinutes: this.state.breakMinutes,
             breakSeconds: this.state.breakSeconds,
@@ -43,7 +48,14 @@ export default class Timer extends Component {
             roundMinutes: this.state.roundMinutes,
             roundSeconds: this.state.roundSeconds,
             rounds: this.state.rounds,
+            name: this.state.name,
         });
+        await BlockstackUtils.setTimers(timers);
+        await this.getSavedTimers();
+    }
+
+    async deleteTimer(id) {
+        const timers = this.state.timers.filter(timer => timer.id !== id);
         await BlockstackUtils.setTimers(timers);
         await this.getSavedTimers();
     }
@@ -158,6 +170,7 @@ export default class Timer extends Component {
             this.state.remainingSeconds === 0
         ) {
             clearInterval(this.intervalHandle);
+            this.setState({ manageTimerEnabled: false });
             return;
         }
 
@@ -196,6 +209,7 @@ export default class Timer extends Component {
         console.log('STARTINGGGGG');
         event.preventDefault();
         clearInterval(this.intervalHandle);
+        this.setState({ manageTimerEnabled: true });
 
         if (
             this.state.breakHours ||
@@ -225,6 +239,24 @@ export default class Timer extends Component {
         this.intervalHandle = setInterval(this.tick, 1000);
     }
 
+    async manageTimer() {
+        if (this.state.manageTimerText === 'Stop') {
+            this.stopTimer();
+            this.setState({ manageTimerText: 'Resume' });
+        } else {
+            this.resumeTimer();
+            this.setState({ manageTimerText: 'Stop' });
+        }
+    }
+
+    async resumeTimer() {
+        this.intervalHandle = setInterval(this.tick, 1000);
+    }
+
+    async stopTimer() {
+        clearInterval(this.intervalHandle);
+    }
+
     render() {
         return (
             <div className="timer">
@@ -237,14 +269,14 @@ export default class Timer extends Component {
                             <label>Name</label>
                             <input
                                 type="text"
-                                id="timerName"
-                                name="timerName"
+                                id="name"
+                                name="name"
                                 placeholder="Timer name"
-                                className="timerName"
+                                className="name"
                                 title="Timer name"
                                 onChange={event =>
                                     this.setState({
-                                        timerName: event.target.value,
+                                        name: event.target.value,
                                     })
                                 }
                                 required
@@ -393,25 +425,51 @@ export default class Timer extends Component {
                                     Start
                                 </button>
                             </div>
+                            <div className="inlineButton">
+                                <button
+                                    id="stopTimer"
+                                    type="button"
+                                    className="btn btn-blue mx-1 timerTimeMiddle"
+                                    onClick={() => this.manageTimer()}
+                                    disabled={!this.state.manageTimerEnabled}
+                                >
+                                    {this.state.manageTimerText}
+                                </button>
+                            </div>
                         </div>
                     </form>
                     <div className="timerCount">
-                        <p className="timerText">
-                            {this.state.displayType}&nbsp;-&nbsp;
-                            {this.state.remainingRounds}
-                        </p>
-                        <p className="timerText">
-                            {this.state.displayHours}:
-                            {this.state.displayMinutes}:
-                            {this.state.displaySeconds}
-                        </p>
+                        <div className="timerText">
+                            <p className="timerTextLine">
+                                {this.state.displayType}&nbsp;-&nbsp;
+                                {this.state.remainingRounds}
+                            </p>
+                            <p className="timerTextLine">
+                                {this.state.displayHours}:
+                                {this.state.displayMinutes}:
+                                {this.state.displaySeconds}
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div className="savedTimers">
                     {this.state.timers.map(timer => (
-                        <div id="savedTimer" key={timer.timerName}>
-                            {timer.rounds} round(s) of {timer.roundSeconds}{' '}
-                            seconds
+                        <div
+                            id="savedTimer"
+                            className="savedTimer"
+                            key={timer.id}
+                        >
+                            <FontAwesomeIcon
+                                icon={faTimes}
+                                onClick={() => this.deleteTimer(timer.id)}
+                                className="deleteTimer"
+                            />
+                            &nbsp;
+                            <span className="selectTimer">
+                                {timer.name}: {timer.rounds} round(s) of{' '}
+                                {timer.roundHours}:{timer.roundMinutes}:
+                                {timer.roundSeconds}
+                            </span>
                         </div>
                     ))}
                 </div>

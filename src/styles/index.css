@@ -4,6 +4,15 @@
 
 @tailwind utilities;
 
+.navbar {
+    /* background-color: bg-blue-500 !important; */
+    @apply bg-blue-500 text-white !important;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    position: relative;
+}
+
 .btn {
     @apply font-bold py-2 px-4 rounded;
 }
@@ -11,16 +20,30 @@
 .btn-orange {
     @apply bg-orange-500 text-white;
 }
-
-.btn-orange:hover {
+.btn-orange:hover:enabled,
+.btn-orange:focus:enabled {
     @apply bg-orange-700;
+}
+.btn-orange:hover:disabled,
+.btn-orange:focus:disabled {
+    @apply text-white cursor-default;
 }
 
 .btn-blue {
     @apply bg-blue-500 text-white;
 }
-.btn-blue:hover {
+.btn-blue:hover:enabled,
+.btn-blue:focus:enabled {
     @apply bg-blue-700;
+}
+.btn-blue:hover:disabled,
+.btn-blue:focus:disabled {
+    @apply text-white cursor-default;
+}
+
+input,
+textarea {
+    @apply text-gray-800;
 }
 
 input {
@@ -31,14 +54,14 @@ input {
     @apply appearance-none leading-normal;
 }
 
+input:hover,
 input:focus {
     @apply outline-none;
     @apply shadow-outline;
 }
 
 .main {
-    @apply flex;
-    @apply flex-wrap;
+    @apply block;
     @apply w-full;
     position: relative;
 }
@@ -62,15 +85,14 @@ input:focus {
 
 .startTimer {
     @apply w-full;
-    display: inline-flex;
+    @apply block;
     position: relative;
+    float: none;
 }
 
 .startTimerForm {
-    @apply flex;
+    @apply block;
     @apply w-full;
-    @apply flex-wrap;
-    @apply flex-row;
 }
 
 .timerTimeSet {
@@ -112,42 +134,47 @@ input:focus {
 }
 
 .timerCount {
-    @apply flex;
-    @apply w-full;
-    @apply flex-wrap;
-    @apply flex-col;
-    justify-content: center;
-    align-items: center;
-    @apply text-6xl;
-    @apply font-extrabold;
+    @apply block text-6xl font-bold text-gray-800;
+    position: static;
+    float: none;
+    margin: 0;
 }
 
-.timerText {
+.timerTextLine {
     @apply w-full;
 }
 
 .savedTimers {
     @apply w-full;
-    display: inline-flex;
-    position: relative;
+    @apply font-bold text-gray-600;
+    display: block;
+    position: static;
 }
 
 .sidebar {
-    @apply flex;
-    @apply flex-col;
-    @apply flex-wrap;
-    @apply w-full;
-    @apply text-xl;
+    @apply flex flex-col flex-wrap w-full text-xl;
     position: relative;
     text-align: center;
     align-items: center;
 }
 
 .sidebarItem {
-    @apply flex-shrink-0;
-    @apply flex-no-wrap;
-    @apply w-full;
+    @apply flex-shrink-0 flex-no-wrap w-full;
     outline: 0.025rem solid blue;
+}
+
+.deleteTimer:hover,
+.deleteTimer:focus {
+    @apply cursor-pointer;
+}
+
+.selectTimer {
+    @apply text-gray-800;
+}
+
+.selectTimer:hover,
+.selectTimer:focus {
+    @apply bg-blue-500 text-white cursor-pointer;
 }
 
 @screen md {
@@ -163,11 +190,27 @@ input:focus {
     }
 
     .timer {
-        @apply flex-wrap;
+        @apply block;
         @apply text-base;
         @apply w-full;
-        display: inline-flex;
         position: relative;
+    }
+
+    .timerCount {
+        @apply inline-block;
+        @apply text-6xl;
+        @apply font-bold;
+        position: relative;
+        width: 40%;
+        margin: 0;
+        margin-top: 1em;
+    }
+
+    .startTimerForm {
+        @apply inline-block;
+        @apply w-1/2;
+        position: relative;
+        /* margin-left: -20em; */
     }
 
     .sidebar {

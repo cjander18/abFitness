@@ -11,6 +11,11 @@
     -moz-border-radius: 0;
     border-radius: 0;
     position: relative;
+    box-shadow: 0 0.0425rem 0.075rem 0 rgba(0, 0, 0, 0.25),
+        0 0.0425rem 0.1275rem 0 rgba(0, 0, 0, 0.15);
+    transition: background-color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.3, 0, 0.2, 1);
 }
 
 .btn {
@@ -18,11 +23,19 @@
 }
 
 .btn-orange {
-    @apply bg-orange-500 text-white;
+    @apply bg-orange-600 text-white;
+    text-decoration: none;
+}
+.btn-orange:enabled {
+    box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.25),
+        0 0.0625rem 0.1875rem 0 rgba(0, 0, 0, 0.15);
+    transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .btn-orange:hover:enabled,
 .btn-orange:focus:enabled {
-    @apply bg-orange-700;
+    @apply bg-orange-600;
 }
 .btn-orange:hover:disabled,
 .btn-orange:focus:disabled {
@@ -32,9 +45,19 @@
 .btn-blue {
     @apply bg-blue-500 text-white;
 }
+
+.btn-blue:enabled {
+    box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.25),
+        0 0.0625rem 0.1875rem 0 rgba(0, 0, 0, 0.15);
+    transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .btn-blue:hover:enabled,
 .btn-blue:focus:enabled {
-    @apply bg-blue-700;
+    @apply bg-blue-500;
+    text-decoration: none;
 }
 .btn-blue:hover:disabled,
 .btn-blue:focus:disabled {
@@ -142,6 +165,7 @@ input:focus {
 
 .timerTextLine {
     @apply w-full;
+    position: inherit;
 }
 
 .savedTimers {
@@ -149,6 +173,32 @@ input:focus {
     @apply font-bold text-gray-600;
     display: block;
     position: static;
+}
+
+.savedTimer {
+    @apply border border-solid border-gray-500 rounded;
+    margin-right: 3em;
+    margin-left: 3em;
+    margin-bottom: 0.25em;
+    box-shadow: 0 0.0425rem 0.075rem 0 rgba(0, 0, 0, 0.25),
+        0 0.0425rem 0.1275rem 0 rgba(0, 0, 0, 0.15);
+    transition: background-color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.3, 0, 0.2, 1);
+}
+
+.savedTimer:hover,
+.savedTimer:focus {
+    @apply bg-blue-500 text-white cursor-pointer rounded;
+    margin-right: 3em;
+    margin-left: 3em;
+}
+
+.savedTimerSelected {
+    @apply bg-blue-500 text-white cursor-pointer rounded;
+    margin-right: 3em;
+    margin-left: 3em;
+    margin-bottom: 0.25em;
 }
 
 .sidebar {
@@ -166,15 +216,11 @@ input:focus {
 .deleteTimer:hover,
 .deleteTimer:focus {
     @apply cursor-pointer;
+    z-index: 1;
 }
 
 .selectTimer {
     @apply text-gray-800;
-}
-
-.selectTimer:hover,
-.selectTimer:focus {
-    @apply bg-blue-500 text-white cursor-pointer;
 }
 
 @screen md {
@@ -194,6 +240,11 @@ input:focus {
         @apply text-base;
         @apply w-full;
         position: relative;
+    }
+
+    .timerText {
+        position: relative;
+        bottom: 1em;
     }
 
     .timerCount {

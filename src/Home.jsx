@@ -34,10 +34,10 @@ export default class Home extends Component {
         return !userSession.isSignInPending() ? (
             <ErrorBoundary>
                 <div className="divFlex">
-                    <Sidebar
+                    {/* <Sidebar
                         selectedTab={this.state.selectedTab}
                         selectTab={this.selectTab}
-                    ></Sidebar>
+                    ></Sidebar> */}
                     <div className="main">
                         <Main
                             userSession={this.props.userSession}

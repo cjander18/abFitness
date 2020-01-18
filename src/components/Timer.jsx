@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BlockstackUtils } from '../utils/Blockstack';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import uuidv4 from 'uuid/v4';
 
 export default class Timer extends Component {
@@ -30,6 +30,7 @@ export default class Timer extends Component {
             roundSeconds: 0,
             name: '',
             timers: [],
+            selectedTimerId: 0,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -54,7 +55,41 @@ export default class Timer extends Component {
         await this.getSavedTimers();
     }
 
-    async deleteTimer(id) {
+    async updateTimer() {
+        const timers = this.state.timers.map(timer =>
+            timer.id === this.state.selectedTimerId
+                ? {
+                      ...timer,
+                      breakHours: this.state.breakHours,
+                      breakMinutes: this.state.breakMinutes,
+                      breakSeconds: this.state.breakSeconds,
+                      roundHours: this.state.roundHours,
+                      roundMinutes: this.state.roundMinutes,
+                      roundSeconds: this.state.roundSeconds,
+                      rounds: this.state.rounds,
+                      name: this.state.name,
+                  }
+                : timer
+        );
+        await BlockstackUtils.setTimers(timers);
+        await this.getSavedTimers();
+    }
+
+    async selectTimer(id) {
+        const timer = this.state.timers.filter(timer => timer.id === id)[0];
+        this.setState({ selectedTimerId: id });
+        this.setState({ breakHours: timer.breakHours });
+        this.setState({ breakMinutes: timer.breakMinutes });
+        this.setState({ breakSeconds: timer.breakSeconds });
+        this.setState({ roundHours: timer.roundHours });
+        this.setState({ roundMinutes: timer.roundMinutes });
+        this.setState({ roundSeconds: timer.roundSeconds });
+        this.setState({ rounds: timer.rounds });
+        this.setState({ name: timer.name });
+    }
+
+    async deleteTimer(event, id) {
+        event.stopPropagation();
         const timers = this.state.timers.filter(timer => timer.id !== id);
         await BlockstackUtils.setTimers(timers);
         await this.getSavedTimers();
@@ -206,7 +241,6 @@ export default class Timer extends Component {
     }
 
     handleSubmit(event) {
-        console.log('STARTINGGGGG');
         event.preventDefault();
         clearInterval(this.intervalHandle);
         this.setState({ manageTimerEnabled: true });
@@ -274,6 +308,7 @@ export default class Timer extends Component {
                                 placeholder="Timer name"
                                 className="name"
                                 title="Timer name"
+                                value={this.state.name}
                                 onChange={event =>
                                     this.setState({
                                         name: event.target.value,
@@ -292,6 +327,7 @@ export default class Timer extends Component {
                                 className="numberOfRounds"
                                 title="Number of rounds"
                                 size="3"
+                                value={this.state.rounds}
                                 onChange={event =>
                                     this.setState({
                                         rounds: parseInt(event.target.value),
@@ -309,6 +345,7 @@ export default class Timer extends Component {
                                 title="Round hour duration"
                                 className="timerTimeSet timerTimeStart"
                                 size="2"
+                                value={this.state.roundHours}
                                 onChange={event =>
                                     this.setState({
                                         roundHours: parseInt(
@@ -326,6 +363,7 @@ export default class Timer extends Component {
                                 title="Round minute duration"
                                 className="timerTimeSet timerTimeMiddle"
                                 size="2"
+                                value={this.state.roundMinutes}
                                 onChange={event =>
                                     this.setState({
                                         roundMinutes: parseInt(
@@ -343,6 +381,7 @@ export default class Timer extends Component {
                                 title="Round second duration"
                                 className="timerTimeSet timerTimeEnd"
                                 size="2"
+                                value={this.state.roundSeconds}
                                 onChange={event =>
                                     this.setState({
                                         roundSeconds: parseInt(
@@ -362,6 +401,7 @@ export default class Timer extends Component {
                                 title="Break hour duration"
                                 className="timerTimeSet timerTimeStart"
                                 size="2"
+                                value={this.state.breakHours}
                                 onChange={event =>
                                     this.setState({
                                         breakHours: parseInt(
@@ -379,6 +419,7 @@ export default class Timer extends Component {
                                 title="Break minute duration"
                                 className="timerTimeSet timerTimeMiddle"
                                 size="2"
+                                value={this.state.breakMinutes}
                                 onChange={event =>
                                     this.setState({
                                         breakMinutes: parseInt(
@@ -396,6 +437,7 @@ export default class Timer extends Component {
                                 title="Break second duration"
                                 className="timerTimeSet timerTimeEnd"
                                 size="2"
+                                value={this.state.breakSeconds}
                                 onChange={event =>
                                     this.setState({
                                         breakSeconds: parseInt(
@@ -410,10 +452,21 @@ export default class Timer extends Component {
                                 <button
                                     id="saveTimer"
                                     type="button"
-                                    className="btn btn-blue mx-1 timerTimeMiddle"
+                                    className="btn btn-orange mx-1 timerTimeMiddle"
                                     onClick={() => this.saveTimer()}
                                 >
                                     Save
+                                </button>
+                            </div>
+                            <div className="inlineButton">
+                                <button
+                                    id="updateTimer"
+                                    type="button"
+                                    className="btn btn-blue mx-1 timerTimeMiddle"
+                                    onClick={() => this.updateTimer()}
+                                    disabled={this.state.selectedTimerId === 0}
+                                >
+                                    Update
                                 </button>
                             </div>
                             <div className="inlineButton">
@@ -456,20 +509,27 @@ export default class Timer extends Component {
                     {this.state.timers.map(timer => (
                         <div
                             id="savedTimer"
-                            className="savedTimer"
+                            className={
+                                this.state.selectedTimerId === timer.id
+                                    ? 'savedTimerSelected'
+                                    : 'savedTimer'
+                            }
                             key={timer.id}
+                            onClick={() => this.selectTimer(timer.id)}
                         >
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                onClick={() => this.deleteTimer(timer.id)}
-                                className="deleteTimer"
-                            />
-                            &nbsp;
-                            <span className="selectTimer">
-                                {timer.name}: {timer.rounds} round(s) of{' '}
-                                {timer.roundHours}:{timer.roundMinutes}:
-                                {timer.roundSeconds}
-                            </span>
+                            <div>
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    onClick={e => this.deleteTimer(e, timer.id)}
+                                    className="deleteTimer"
+                                />
+                                &nbsp;&nbsp;
+                                <span className="selectTimer">
+                                    {timer.name}: {timer.rounds} round(s) of{' '}
+                                    {timer.roundHours}:{timer.roundMinutes}:
+                                    {timer.roundSeconds}
+                                </span>
+                            </div>
                         </div>
                     ))}
                 </div>

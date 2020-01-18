@@ -11393,6 +11393,14 @@ video {
   color: #fff !important;
   border-radius: 0;
   position: relative;
+  box-shadow: 0 0.0425rem 0.075rem 0 rgba(0, 0, 0, 0.25),
+        0 0.0425rem 0.1275rem 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: background-color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.3, 0, 0.2, 1);
+  transition: background-color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.3, 0, 0.2, 1);
 }
 
 .btn {
@@ -11405,13 +11413,25 @@ video {
 }
 
 .btn-orange {
-  background-color: #ed8936;
+  background-color: #dd6b20;
   color: #fff;
+  text-decoration: none;
+}
+
+.btn-orange:enabled {
+  box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.25),
+        0 0.0625rem 0.1875rem 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-orange:hover:enabled,
 .btn-orange:focus:enabled {
-  background-color: #c05621;
+  background-color: #dd6b20;
 }
 
 .btn-orange:hover:disabled,
@@ -11425,9 +11445,21 @@ video {
   color: #fff;
 }
 
+.btn-blue:enabled {
+  box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.25),
+        0 0.0625rem 0.1875rem 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .btn-blue:hover:enabled,
 .btn-blue:focus:enabled {
-  background-color: #2b6cb0;
+  background-color: #4299e1;
+  text-decoration: none;
 }
 
 .btn-blue:hover:disabled,
@@ -11560,6 +11592,7 @@ input:focus {
 
 .timerTextLine {
   width: 100%;
+  position: inherit;
 }
 
 .savedTimers {
@@ -11568,6 +11601,44 @@ input:focus {
   color: #718096;
   display: block;
   position: static;
+}
+
+.savedTimer {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #a0aec0;
+  border-radius: 0.25rem;
+  margin-right: 3em;
+  margin-left: 3em;
+  margin-bottom: 0.25em;
+  box-shadow: 0 0.0425rem 0.075rem 0 rgba(0, 0, 0, 0.25),
+        0 0.0425rem 0.1275rem 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: background-color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.3, 0, 0.2, 1);
+  transition: background-color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        color 0.28s cubic-bezier(0.3, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.3, 0, 0.2, 1);
+}
+
+.savedTimer:hover,
+.savedTimer:focus {
+  background-color: #4299e1;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  margin-right: 3em;
+  margin-left: 3em;
+}
+
+.savedTimerSelected {
+  background-color: #4299e1;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  margin-right: 3em;
+  margin-left: 3em;
+  margin-bottom: 0.25em;
 }
 
 .sidebar {
@@ -11595,17 +11666,11 @@ input:focus {
 .deleteTimer:hover,
 .deleteTimer:focus {
   cursor: pointer;
+  z-index: 1;
 }
 
 .selectTimer {
   color: #2d3748;
-}
-
-.selectTimer:hover,
-.selectTimer:focus {
-  background-color: #4299e1;
-  color: #fff;
-  cursor: pointer;
 }
 
 @media (min-width: 768px) {
@@ -11628,6 +11693,11 @@ input:focus {
     font-size: 1rem;
     width: 100%;
     position: relative;
+  }
+
+  .timerText {
+    position: relative;
+    bottom: 1em;
   }
 
   .timerCount {

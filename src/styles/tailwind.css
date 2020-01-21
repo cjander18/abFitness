@@ -11431,7 +11431,7 @@ video {
 
 .btn-orange:hover:enabled,
 .btn-orange:focus:enabled {
-  background-color: #dd6b20;
+  background-color: #9c4221;
 }
 
 .btn-orange:hover:disabled,
@@ -11458,7 +11458,7 @@ video {
 
 .btn-blue:hover:enabled,
 .btn-blue:focus:enabled {
-  background-color: #4299e1;
+  background-color: #2b6cb0;
   text-decoration: none;
 }
 
@@ -11466,6 +11466,20 @@ video {
 .btn-blue:focus:disabled {
   color: #fff;
   cursor: default;
+}
+
+label {
+  line-height: 2.5;
+  margin-bottom: 0;
+}
+
+.labelDiv {
+  display: inline-block;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  text-align: center;
 }
 
 input,
@@ -11539,7 +11553,6 @@ input:focus {
   display: inline-flex;
   margin: 0.1em;
   width: 5em;
-  height: 3em;
   vertical-align: bottom;
 }
 

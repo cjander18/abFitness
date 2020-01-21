@@ -35,7 +35,7 @@
 }
 .btn-orange:hover:enabled,
 .btn-orange:focus:enabled {
-    @apply bg-orange-600;
+    @apply bg-orange-800;
 }
 .btn-orange:hover:disabled,
 .btn-orange:focus:disabled {
@@ -56,12 +56,24 @@
 
 .btn-blue:hover:enabled,
 .btn-blue:focus:enabled {
-    @apply bg-blue-500;
+    @apply bg-blue-700;
     text-decoration: none;
 }
 .btn-blue:hover:disabled,
 .btn-blue:focus:disabled {
     @apply text-white cursor-default;
+}
+
+label {
+    line-height: 2.5;
+    margin-bottom: 0;
+}
+
+.labelDiv {
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 input,
@@ -122,7 +134,6 @@ input:focus {
     display: inline-flex;
     margin: 0.1em;
     width: 5em;
-    height: 3em;
     vertical-align: bottom;
 }
 

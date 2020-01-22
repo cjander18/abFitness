@@ -21,6 +21,9 @@ export default class Timer extends Component {
             displayHours: '00',
             displayMinutes: '00',
             displaySeconds: '00',
+            errorName: false,
+            errorRound: false,
+            errorTimer: false,
             manageTimerText: 'Stop',
             manageTimerEnabled: false,
             remainingRounds: 0,
@@ -61,7 +64,44 @@ export default class Timer extends Component {
         this.setState({ name: '' });
     }
 
+    clearErrors() {
+        this.setState({ errorName: false });
+        this.setState({ errorRound: false });
+        this.setState({ errorTimer: false });
+    }
+
+    validateSaveUpdate() {
+        this.setState({ errorName: !this.state.name });
+        this.setState({ errorRound: this.state.rounds < 1 });
+        this.setState({
+            errorTimer:
+                this.state.roundHours < 1 &&
+                this.state.roundMinutes < 1 &&
+                this.state.roundSeconds < 1,
+        });
+    }
+
+    validateStart() {
+        this.setState({ errorName: false });
+        this.setState({ errorRound: this.state.rounds < 1 });
+        this.setState({
+            errorTimer:
+                this.state.roundHours < 1 &&
+                this.state.roundMinutes < 1 &&
+                this.state.roundSeconds < 1,
+        });
+    }
+
     async saveTimer() {
+        this.validateSaveUpdate();
+        if (
+            this.state.errorName ||
+            this.state.errorRound ||
+            this.state.errorTimer
+        ) {
+            return;
+        }
+
         const timers = this.state.timers;
         timers.push({
             id: uuidv4(),
@@ -79,6 +119,15 @@ export default class Timer extends Component {
     }
 
     async updateTimer() {
+        this.validateSaveUpdate();
+        if (
+            this.state.errorName ||
+            this.state.errorRound ||
+            this.state.errorTimer
+        ) {
+            return;
+        }
+
         const timers = this.state.timers.map(timer =>
             timer.id === this.state.selectedTimerId
                 ? {
@@ -250,6 +299,13 @@ export default class Timer extends Component {
     handleSubmit(event) {
         event.preventDefault();
         clearInterval(this.intervalHandle);
+        this.validateStart();
+        if (this.state.errorRound || this.state.errorTimer) {
+            console.log('ERROR ERROR');
+            throw 'error';
+            return;
+        }
+
         this.setState({ manageTimerEnabled: true });
 
         if (
@@ -308,7 +364,14 @@ export default class Timer extends Component {
                     >
                         <div className="oneLineInputDiv">
                             <div className="labelDiv">
-                                <label htmlFor="timerName">Name</label>
+                                <label
+                                    className={
+                                        this.state.errorName ? 'error-text' : ''
+                                    }
+                                    htmlFor="timerName"
+                                >
+                                    Name
+                                </label>
                             </div>
                             <input
                                 type="text"
@@ -323,12 +386,20 @@ export default class Timer extends Component {
                                         name: event.target.value,
                                     })
                                 }
-                                required
                             ></input>
                         </div>
                         <div className="oneLineInputDiv">
                             <div className="labelDiv">
-                                <label htmlFor="numberOfRounds">Rounds</label>
+                                <label
+                                    className={
+                                        this.state.errorRound
+                                            ? 'error-text'
+                                            : ''
+                                    }
+                                    htmlFor="numberOfRounds"
+                                >
+                                    Rounds
+                                </label>
                             </div>
                             <input
                                 type="number"
@@ -347,6 +418,7 @@ export default class Timer extends Component {
                             ></input>
                         </div>
                         <TimeInput
+                            error={this.state.errorTimer}
                             hourLabel="Round Duration"
                             hourId="roundHours"
                             hourTitle="Round hour duration"

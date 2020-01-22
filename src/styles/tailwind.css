@@ -11686,6 +11686,11 @@ input:focus {
   color: #2d3748;
 }
 
+.error-text {
+  color: #c53030;
+  font-weight: 600;
+}
+
 @media (min-width: 768px) {
   .divFlex {
     -webkit-box-orient: horizontal;

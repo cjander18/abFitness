@@ -5,7 +5,10 @@ export default class TimeInput extends Component {
         return (
             <div className="oneLineInputDiv">
                 <div className="labelDiv">
-                    <label htmlFor={this.props.hourId}>
+                    <label
+                        className={this.props.error ? 'error-text' : ''}
+                        htmlFor={this.props.hourId}
+                    >
                         {this.props.hourLabel}
                     </label>
                 </div>

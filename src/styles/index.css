@@ -234,6 +234,10 @@ input:focus {
     @apply text-gray-800;
 }
 
+.error-text {
+    @apply text-red-700 font-semibold;
+}
+
 @screen md {
     .divFlex {
         flex-flow: row;

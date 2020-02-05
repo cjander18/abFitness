@@ -304,6 +304,7 @@ export default class Timer extends Component {
             return;
         }
 
+        this.setState({ manageTimerText: 'Stop' });
         this.setState({ manageTimerEnabled: true });
 
         if (

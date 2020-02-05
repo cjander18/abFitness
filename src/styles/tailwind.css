@@ -11388,8 +11388,7 @@ video {
 }
 
 .navbar {
-  /* background-color: bg-blue-500 !important; */
-  background-color: #4299e1 !important;
+  background-color: #2b6cb0 !important;
   color: #fff !important;
   border-radius: 0;
   position: relative;
@@ -11410,10 +11409,11 @@ video {
   padding-left: 1rem;
   padding-right: 1rem;
   border-radius: 0.25rem;
+  font-size: larger;
 }
 
 .btn-orange {
-  background-color: #dd6b20;
+  background-color: #c05621;
   color: #fff;
   text-decoration: none;
 }
@@ -11431,7 +11431,7 @@ video {
 
 .btn-orange:hover:enabled,
 .btn-orange:focus:enabled {
-  background-color: #9c4221;
+  background-color: #7b341e;
 }
 
 .btn-orange:hover:disabled,
@@ -11441,7 +11441,7 @@ video {
 }
 
 .btn-blue {
-  background-color: #4299e1;
+  background-color: #2b6cb0;
   color: #fff;
 }
 
@@ -11458,7 +11458,7 @@ video {
 
 .btn-blue:hover:enabled,
 .btn-blue:focus:enabled {
-  background-color: #2b6cb0;
+  background-color: #2a4365;
   text-decoration: none;
 }
 
@@ -11466,6 +11466,29 @@ video {
 .btn-blue:focus:disabled {
   color: #fff;
   cursor: default;
+}
+
+.buttonSet {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  -webkit-box-pack: center;
+          justify-content: center;
+}
+
+h2 {
+  padding: 0.25em;
+}
+
+.appTitle {
+  font-size: 2em;
+  font-weight: 900;
+  padding-left: 22.5px;
+  text-align: left;
 }
 
 label {
@@ -11497,7 +11520,6 @@ input {
   padding-left: 1rem;
   padding-right: 1rem;
   display: block;
-  width: 100%;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -11552,7 +11574,7 @@ input:focus {
   display: -webkit-inline-box;
   display: inline-flex;
   margin: 0.1em;
-  width: 5em;
+  width: 6.5em !important;
   vertical-align: bottom;
 }
 
@@ -11564,10 +11586,9 @@ input:focus {
           flex-flow: row;
   -webkit-box-pack: center;
           justify-content: center;
-  width: 100%;
-  padding: 0.5em;
   line-height: 2;
-  text-align: bottom;
+  padding-top: 2%;
+  padding-bottom: 2%;
 }
 
 .timerTimeStart {
@@ -11601,17 +11622,25 @@ input:focus {
   position: static;
   float: none;
   margin: 0;
+  vertical-align: text-bottom;
+}
+
+.timerText {
+  padding-top: 8%;
+  padding-bottom: 10%;
 }
 
 .timerTextLine {
   width: 100%;
   position: inherit;
+  padding-top: 5%;
+  padding-bottom: 8%;
 }
 
 .savedTimers {
   width: 100%;
   font-weight: 700;
-  color: #718096;
+  color: #2d3748;
   display: block;
   position: static;
 }
@@ -11636,7 +11665,7 @@ input:focus {
 
 .savedTimer:hover,
 .savedTimer:focus {
-  background-color: #4299e1;
+  background-color: #2b6cb0;
   color: #fff;
   cursor: pointer;
   border-radius: 0.25rem;
@@ -11645,7 +11674,7 @@ input:focus {
 }
 
 .savedTimerSelected {
-  background-color: #4299e1;
+  background-color: #2b6cb0;
   color: #fff;
   cursor: pointer;
   border-radius: 0.25rem;
@@ -11682,11 +11711,21 @@ input:focus {
   z-index: 1;
 }
 
-.selectTimer {
-  color: #2d3748;
+.error-text {
+  color: #c53030;
+  font-weight: 600;
 }
 
 @media (min-width: 768px) {
+  .btn {
+    font-size: medium;
+  }
+
+  input {
+    display: block;
+    width: 50%;
+  }
+
   .divFlex {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
@@ -11711,6 +11750,7 @@ input:focus {
   .timerText {
     position: relative;
     bottom: 1em;
+    padding: 0;
   }
 
   .timerCount {

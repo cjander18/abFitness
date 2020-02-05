@@ -5,14 +5,14 @@ export default class DisplayTimers extends Component {
         return (
             <div className="timerCount">
                 <div className="timerText">
-                    <p className="timerTextLine">
+                    <h2 className="timerTextLine">
                         {this.props.displayType}&nbsp;-&nbsp;
                         {this.props.remainingRounds}
-                    </p>
-                    <p className="timerTextLine">
+                    </h2>
+                    <h2 className="timerTextLine">
                         {this.props.displayHours}:{this.props.displayMinutes}:
                         {this.props.displaySeconds}
-                    </p>
+                    </h2>
                 </div>
             </div>
         );

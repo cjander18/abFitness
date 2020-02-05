@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Person } from 'blockstack';
 import Main from './components/Main';
-import Sidebar from './components/Sidebar';
 import ErrorBoundary from './components/ErrorBoundary';
 import { appConfig } from './utils/Blockstack';
 import { UserSession } from 'blockstack';
@@ -22,27 +21,19 @@ export default class Home extends Component {
                     return avatarFallbackImage;
                 },
             },
-            selectedTab: 'Timer',
         };
 
         this.userSession = new UserSession({ appConfig });
     }
 
     render() {
-        const { userSession } = this.props; //handleSignOut,
-        // const { person } = this.state
+        const { userSession } = this.props;
         return !userSession.isSignInPending() ? (
             <ErrorBoundary>
                 <div className="divFlex">
-                    {/* <Sidebar
-                        selectedTab={this.state.selectedTab}
-                        selectTab={this.selectTab}
-                    ></Sidebar> */}
                     <div className="main">
-                        <Main
-                            userSession={this.props.userSession}
-                            selectedTab={this.state.selectedTab}
-                        ></Main>
+                        <h1 className="appTitle">AlphaTimer</h1>
+                        <Main userSession={this.props.userSession}></Main>
                     </div>
                 </div>
             </ErrorBoundary>
@@ -54,19 +45,6 @@ export default class Home extends Component {
         this.setState({
             person: new Person(userSession.loadUserData().profile),
         });
-        // }
-
-        // // componentDidMount() {
-        // BlockstackUtils.getCalendars()
-        //     .then(calendars => {
-        //         if (calendars.length === 0) calendars = defaultCalendars;
-
-        //         this.setState({ calendars }, () => {
-        //             console.log('calendars set');
-        //             console.table(calendars);
-        //         });
-        //     })
-        //     .catch(err => server_error(err));
     }
 
     selectTab = selectedTab => {

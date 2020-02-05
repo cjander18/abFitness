@@ -21,6 +21,9 @@ export default class Timer extends Component {
             displayHours: '00',
             displayMinutes: '00',
             displaySeconds: '00',
+            errorName: false,
+            errorRound: false,
+            errorTimer: false,
             manageTimerText: 'Stop',
             manageTimerEnabled: false,
             remainingRounds: 0,
@@ -61,7 +64,44 @@ export default class Timer extends Component {
         this.setState({ name: '' });
     }
 
+    clearErrors() {
+        this.setState({ errorName: false });
+        this.setState({ errorRound: false });
+        this.setState({ errorTimer: false });
+    }
+
+    async validateSaveUpdate() {
+        this.setState({ errorName: !this.state.name });
+        this.setState({ errorRound: this.state.rounds < 1 });
+        this.setState({
+            errorTimer:
+                this.state.roundHours < 1 &&
+                this.state.roundMinutes < 1 &&
+                this.state.roundSeconds < 1,
+        });
+    }
+
+    async validateStart() {
+        this.setState({ errorName: false });
+        this.setState({ errorRound: this.state.rounds < 1 });
+        this.setState({
+            errorTimer:
+                this.state.roundHours < 1 &&
+                this.state.roundMinutes < 1 &&
+                this.state.roundSeconds < 1,
+        });
+    }
+
     async saveTimer() {
+        await this.validateSaveUpdate();
+        if (
+            this.state.errorName ||
+            this.state.errorRound ||
+            this.state.errorTimer
+        ) {
+            return;
+        }
+
         const timers = this.state.timers;
         timers.push({
             id: uuidv4(),
@@ -79,6 +119,15 @@ export default class Timer extends Component {
     }
 
     async updateTimer() {
+        await this.validateSaveUpdate();
+        if (
+            this.state.errorName ||
+            this.state.errorRound ||
+            this.state.errorTimer
+        ) {
+            return;
+        }
+
         const timers = this.state.timers.map(timer =>
             timer.id === this.state.selectedTimerId
                 ? {
@@ -247,9 +296,14 @@ export default class Timer extends Component {
         this.setRounds();
     }
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
         clearInterval(this.intervalHandle);
+        await this.validateStart();
+        if (this.state.errorRound || this.state.errorTimer) {
+            return;
+        }
+
         this.setState({ manageTimerEnabled: true });
 
         if (
@@ -302,13 +356,27 @@ export default class Timer extends Component {
         return (
             <div className="timer">
                 <div className="startTimer">
+                    <DisplayTimers
+                        displayType={this.state.displayType}
+                        remainingRounds={this.state.remainingRounds}
+                        displayHours={this.state.displayHours}
+                        displayMinutes={this.state.displayMinutes}
+                        displaySeconds={this.state.displaySeconds}
+                    />
                     <form
                         className="startTimerForm"
                         onSubmit={this.handleSubmit}
                     >
                         <div className="oneLineInputDiv">
                             <div className="labelDiv">
-                                <label htmlFor="timerName">Name</label>
+                                <label
+                                    className={
+                                        this.state.errorName ? 'error-text' : ''
+                                    }
+                                    htmlFor="timerName"
+                                >
+                                    Name
+                                </label>
                             </div>
                             <input
                                 type="text"
@@ -323,12 +391,22 @@ export default class Timer extends Component {
                                         name: event.target.value,
                                     })
                                 }
-                                required
+                                aria-placeholder="Timer name"
+                                contentEditable
                             ></input>
                         </div>
                         <div className="oneLineInputDiv">
                             <div className="labelDiv">
-                                <label htmlFor="numberOfRounds">Rounds</label>
+                                <label
+                                    className={
+                                        this.state.errorRound
+                                            ? 'error-text'
+                                            : ''
+                                    }
+                                    htmlFor="numberOfRounds"
+                                >
+                                    Rounds
+                                </label>
                             </div>
                             <input
                                 type="number"
@@ -344,111 +422,91 @@ export default class Timer extends Component {
                                         rounds: parseInt(event.target.value),
                                     })
                                 }
+                                aria-placeholder="Number of Rounds"
+                                contentEditable
                             ></input>
                         </div>
                         <TimeInput
-                            hourLabel="Round Duration"
-                            hourId="roundHours"
-                            hourTitle="Round hour duration"
+                            error={this.state.errorTimer}
+                            label="Round Duration"
+                            id="roundDuration"
+                            title="Round duration"
+                            timeChange={event => {
+                                const time = event.target.value.split(':');
+                                this.setState({
+                                    roundHours: parseInt(time[0]),
+                                    roundMinutes: parseInt(time[1]),
+                                    roundSeconds: parseInt(time[2]),
+                                });
+                            }}
                             hours={this.state.roundHours}
-                            hoursChange={event =>
-                                this.setState({
-                                    roundHours: parseInt(event.target.value),
-                                })
-                            }
-                            minuteId="roundMinutes"
-                            minuteTitle="Round minute duration"
                             minutes={this.state.roundMinutes}
-                            minutesChange={event =>
-                                this.setState({
-                                    roundMinutes: parseInt(event.target.value),
-                                })
-                            }
-                            secondId="roundSeconds"
-                            secondTitle="Round second duration"
                             seconds={this.state.roundSeconds}
-                            secondsChange={event =>
-                                this.setState({
-                                    roundSeconds: parseInt(event.target.value),
-                                })
-                            }
+                            ariaPlaceholder="Round duration"
                         />
                         <TimeInput
-                            hourLabel="Break Duration"
-                            hourId="breakHours"
-                            hourTitle="Break hour duration"
+                            label="Break Duration"
+                            id="breakDuration"
+                            title="Break duration"
+                            timeChange={event => {
+                                const time = event.target.value.split(':');
+                                this.setState({
+                                    breakHours: parseInt(time[0]),
+                                    breakMinutes: parseInt(time[1]),
+                                    breakSeconds: parseInt(time[2]),
+                                });
+                            }}
                             hours={this.state.breakHours}
-                            hoursChange={event =>
-                                this.setState({
-                                    breakHours: parseInt(event.target.value),
-                                })
-                            }
-                            minuteId="breakMinutes"
-                            minuteTitle="Break minute duration"
                             minutes={this.state.breakMinutes}
-                            minutesChange={event =>
-                                this.setState({
-                                    breakMinutes: parseInt(event.target.value),
-                                })
-                            }
-                            secondId="breakSeconds"
-                            secondTitle="Break second duration"
                             seconds={this.state.breakSeconds}
-                            secondsChange={event =>
-                                this.setState({
-                                    breakSeconds: parseInt(event.target.value),
-                                })
-                            }
+                            ariaPlaceholder="Break duration"
                         />
-                        <div className="oneLineInputDiv">
-                            <Button
-                                id="saveTimer"
-                                type="button"
-                                className="btn btn-orange mx-1 timerTimeMiddle"
-                                onClick={() => {
-                                    this.state.selectedTimerId !== 0
-                                        ? this.updateTimer()
-                                        : this.saveTimer();
-                                }}
-                            >
-                                {this.state.selectedTimerId !== 0
-                                    ? 'Update'
-                                    : 'Save'}
-                            </Button>
-                            <Button
-                                id="clearTimer"
-                                className="btn btn-blue mx-1 timerTimeMiddle"
-                                onClick={() => this.clearTimer()}
-                                disabled={this.state.selectedTimerId === 0}
-                            >
-                                Clear
-                            </Button>
-                            <div className="inlineButton">
-                                <button
-                                    id="startTimer"
-                                    type="submit"
+                        <div className="buttonSet">
+                            <div className="oneLineInputDiv">
+                                <Button
+                                    id="saveTimer"
+                                    type="button"
                                     className="btn btn-orange mx-1 timerTimeMiddle"
+                                    onClick={() => {
+                                        this.state.selectedTimerId !== 0
+                                            ? this.updateTimer()
+                                            : this.saveTimer();
+                                    }}
                                 >
-                                    Start
-                                </button>
+                                    {this.state.selectedTimerId !== 0
+                                        ? 'Update'
+                                        : 'Save'}
+                                </Button>
+                                <Button
+                                    id="clearTimer"
+                                    className="btn btn-blue mx-1 timerTimeMiddle"
+                                    onClick={() => this.clearTimer()}
+                                    disabled={this.state.selectedTimerId === 0}
+                                >
+                                    Clear
+                                </Button>
                             </div>
-                            <Button
-                                id="stopTimer"
-                                className="btn btn-blue mx-1 timerTimeMiddle"
-                                onClick={() => this.manageTimer()}
-                                disabled={!this.state.manageTimerEnabled}
-                            >
-                                {this.state.manageTimerText}
-                            </Button>
+                            <div className="oneLineInputDiv">
+                                <div className="inlineButton">
+                                    <button
+                                        id="startTimer"
+                                        type="submit"
+                                        className="btn btn-orange mx-1 timerTimeMiddle"
+                                    >
+                                        Start
+                                    </button>
+                                </div>
+                                <Button
+                                    id="stopTimer"
+                                    className="btn btn-blue mx-1 timerTimeMiddle"
+                                    onClick={() => this.manageTimer()}
+                                    disabled={!this.state.manageTimerEnabled}
+                                >
+                                    {this.state.manageTimerText}
+                                </Button>
+                            </div>
                         </div>
                     </form>
-                    <DisplayTimers
-                        displayType={this.state.displayType}
-                        remainingRounds={this.state.remainingRounds}
-                        displayHours={this.state.displayHours}
-                        displayMinutes={this.state.displayMinutes}
-                        displaySeconds={this.state.displaySeconds}
-                    />
                 </div>
                 <SavedTimers
                     onKeyUp={this.handleSavedTimerKeyUp.bind(this)}

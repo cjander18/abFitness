@@ -5,8 +5,7 @@
 @tailwind utilities;
 
 .navbar {
-    /* background-color: bg-blue-500 !important; */
-    @apply bg-blue-500 text-white !important;
+    @apply bg-blue-700 text-white !important;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
@@ -20,10 +19,11 @@
 
 .btn {
     @apply font-bold py-2 px-4 rounded;
+    font-size: larger;
 }
 
 .btn-orange {
-    @apply bg-orange-600 text-white;
+    @apply bg-orange-700 text-white;
     text-decoration: none;
 }
 .btn-orange:enabled {
@@ -35,7 +35,7 @@
 }
 .btn-orange:hover:enabled,
 .btn-orange:focus:enabled {
-    @apply bg-orange-800;
+    @apply bg-orange-900;
 }
 .btn-orange:hover:disabled,
 .btn-orange:focus:disabled {
@@ -43,7 +43,7 @@
 }
 
 .btn-blue {
-    @apply bg-blue-500 text-white;
+    @apply bg-blue-700 text-white;
 }
 
 .btn-blue:enabled {
@@ -56,12 +56,28 @@
 
 .btn-blue:hover:enabled,
 .btn-blue:focus:enabled {
-    @apply bg-blue-700;
+    @apply bg-blue-900;
     text-decoration: none;
 }
 .btn-blue:hover:disabled,
 .btn-blue:focus:disabled {
     @apply text-white cursor-default;
+}
+
+.buttonSet {
+    @apply flex flex-row flex-wrap w-full;
+    justify-content: center;
+}
+
+h2 {
+    padding: 0.25em;
+}
+
+.appTitle {
+    font-size: 2em;
+    font-weight: 900;
+    padding-left: 22.5px;
+    text-align: left;
 }
 
 label {
@@ -85,7 +101,7 @@ input {
     @apply bg-white rounded-lg;
     @apply border border-gray-300;
     @apply py-2 px-4;
-    @apply block w-full;
+    @apply block;
     @apply appearance-none leading-normal;
 }
 
@@ -133,7 +149,7 @@ input:focus {
 .timerTimeSet {
     display: inline-flex;
     margin: 0.1em;
-    width: 5em;
+    width: 6.5em !important;
     vertical-align: bottom;
 }
 
@@ -141,10 +157,9 @@ input:focus {
     display: flex;
     flex-flow: row;
     justify-content: center;
-    width: 100%;
-    padding: 0.5em;
     line-height: 2;
-    text-align: bottom;
+    padding-top: 2%;
+    padding-bottom: 2%;
 }
 
 .timerTimeStart {
@@ -172,16 +187,24 @@ input:focus {
     position: static;
     float: none;
     margin: 0;
+    vertical-align: text-bottom;
+}
+
+.timerText {
+    padding-top: 8%;
+    padding-bottom: 10%;
 }
 
 .timerTextLine {
     @apply w-full;
     position: inherit;
+    padding-top: 5%;
+    padding-bottom: 8%;
 }
 
 .savedTimers {
     @apply w-full;
-    @apply font-bold text-gray-600;
+    @apply font-bold text-gray-800;
     display: block;
     position: static;
 }
@@ -200,13 +223,13 @@ input:focus {
 
 .savedTimer:hover,
 .savedTimer:focus {
-    @apply bg-blue-500 text-white cursor-pointer rounded;
+    @apply bg-blue-700 text-white cursor-pointer rounded;
     margin-right: 3em;
     margin-left: 3em;
 }
 
 .savedTimerSelected {
-    @apply bg-blue-500 text-white cursor-pointer rounded;
+    @apply bg-blue-700 text-white cursor-pointer rounded;
     margin-right: 3em;
     margin-left: 3em;
     margin-bottom: 0.25em;
@@ -230,11 +253,19 @@ input:focus {
     z-index: 1;
 }
 
-.selectTimer {
-    @apply text-gray-800;
+.error-text {
+    @apply text-red-700 font-semibold;
 }
 
 @screen md {
+    .btn {
+        font-size: medium;
+    }
+
+    input {
+        @apply block w-1/2;
+    }
+
     .divFlex {
         flex-flow: row;
     }
@@ -256,6 +287,7 @@ input:focus {
     .timerText {
         position: relative;
         bottom: 1em;
+        padding: 0;
     }
 
     .timerCount {
@@ -282,6 +314,7 @@ input:focus {
         position: relative;
     }
 }
+
 /* 
 @screen md {
     .main {

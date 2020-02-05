@@ -23,7 +23,13 @@ export default class Timer extends Component {
         const pluralBreaks = timer.rounds > 1 ? 'breaks' : 'a break';
         const inBetween = timer.rounds > 1 ? ' in between' : '';
         return (
-            <span className="selectTimer">
+            <span
+                className={
+                    this.props.selectedTimerId === timer.id
+                        ? 'selectTimerSelected'
+                        : 'selectTimer'
+                }
+            >
                 <span>
                     {`${timer.name}: ${timer.rounds} ${pluralRounds} of `}
                     {roundText}
@@ -79,6 +85,9 @@ export default class Timer extends Component {
                         onClick={() => this.props.selectTimer(timer.id)}
                         tabIndex="0"
                         onKeyUp={e => this.props.onKeyUp(e, timer.id)}
+                        role="button"
+                        aria-label={timer.name}
+                        aria-pressed={this.props.selectedTimerId === timer.id}
                     >
                         <div>
                             <FontAwesomeIcon

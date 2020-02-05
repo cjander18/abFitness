@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import TimeField from 'react-simple-timefield';
+import { addLeadingZero } from '../../utils/utils';
 
 export default class TimeInput extends Component {
     render() {
@@ -7,46 +9,26 @@ export default class TimeInput extends Component {
                 <div className="labelDiv">
                     <label
                         className={this.props.error ? 'error-text' : ''}
-                        htmlFor={this.props.hourId}
+                        htmlFor={this.props.id}
                     >
-                        {this.props.hourLabel}
+                        {this.props.label}
                     </label>
                 </div>
-                <input
-                    id={this.props.hourId}
-                    name={this.props.hourId}
-                    type="number"
-                    placeholder="h"
-                    title={this.props.hourTitle}
+                <TimeField
+                    id={this.props.id}
+                    name={this.props.id}
+                    title={this.props.title}
                     className="timerTimeSet timerTimeStart"
-                    size="2"
-                    value={this.props.hours}
-                    onChange={this.props.hoursChange}
-                ></input>
-                :
-                <input
-                    id={this.props.minuteId}
-                    name={this.props.minuteId}
-                    type="number"
-                    placeholder="m"
-                    title={this.props.minuteTitle}
-                    className="timerTimeSet timerTimeMiddle"
-                    size="2"
-                    value={this.props.minutes}
-                    onChange={this.props.minutesChange}
-                ></input>
-                :
-                <input
-                    id={this.props.secondId}
-                    name={this.props.secondId}
-                    type="number"
-                    placeholder="s"
-                    title={this.props.secondTitle}
-                    className="timerTimeSet timerTimeMiddle"
-                    size="2"
-                    value={this.props.seconds}
-                    onChange={this.props.secondsChange}
-                ></input>
+                    value={`${addLeadingZero(
+                        this.props.hours
+                    )}:${addLeadingZero(this.props.minutes)}:${addLeadingZero(
+                        this.props.seconds
+                    )}`}
+                    onChange={this.props.timeChange}
+                    aria-placeholder={this.props.ariaPlaceholder}
+                    showSeconds
+                    contentEditable
+                />
             </div>
         );
     }

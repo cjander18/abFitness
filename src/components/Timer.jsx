@@ -298,11 +298,12 @@ export default class Timer extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        clearInterval(this.intervalHandle);
         await this.validateStart();
         if (this.state.errorRound || this.state.errorTimer) {
             return;
         }
+
+        clearInterval(this.intervalHandle);
 
         this.setState({ manageTimerText: 'Stop' });
         this.setState({ manageTimerEnabled: true });
